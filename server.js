@@ -47,8 +47,8 @@ app.get("/", (req, res) => {
       "Darsoon Backend v0.1 - for more informations and documentations please visit:https://github.com/hamidkd/darsoon-backend"
     );
 });
-app.post("/api/getTest", handleGetTest);
-app.post("/api/postTest", handlePostTest);
+app.get("/api/get-test", handleGetTest);
+app.get("/api/post-test", handlePostTest);
 
 
 
