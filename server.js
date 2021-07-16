@@ -1,17 +1,11 @@
 "use strict";
 
-const {
-    handleGetTest,
-    handlePostTest
-
-} = require("./handlers");
+const { handleGetTest, handlePostTest, getTeachers, getOneTeacher, updateTeacher, deleteTeacher, addTeacher } = require("./handlers");
 
 const express = require("express");
 var bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
-
-const port_number = process.env.PORT || 8000;
 
 const app = express();
 //this will give you HTTP requests log in console
@@ -39,7 +33,7 @@ app
   .use(express.urlencoded({ extended: false }))
   .use("/", express.static(__dirname + "/"));
 
-//endpoints ------------------------------------------------------
+//root endpoint ------------------------------------------------------
 app.get("/", (req, res) => {
   res
     .status(200)
@@ -47,10 +41,40 @@ app.get("/", (req, res) => {
       "Darsoon Backend v0.1 - for more informations and documentations please visit:https://github.com/hamidkd/darsoon-backend"
     );
 });
+
+// test endpoints
 app.get("/api/get-test", handleGetTest);
 app.get("/api/post-test", handlePostTest);
 
+// All endpoints -------------------------
+//for each entity there are five endpoints: /api/example-entities, /example-entities/:id, /example-entities/:id/add, /example-entities/:id/update, /example-entities/:id/delete
 
+//teachers
+app.get("/api/teachers", getTeachers);
+app.get("/api/teachers/:id", getOneTeacher);
+app.get("/api/teachers/:id/update", updateTeacher);
+app.get("/api/teachers/:id/delete", deleteTeacher);
+app.get("/api/teachers/add", addTeacher);
+
+//payers
+
+//admins
+
+//students
+
+//topics
+
+//expertises
+
+//products
+
+//classes
+
+//packages
+
+//sessions
+
+//feedbacks
 
 // this is the catch all endpoint ---------------------------------
 
@@ -63,6 +87,6 @@ app.get("*", (req, res) => {
 
 //listen on port 8000
 
-app.listen(port_number, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log("listening on port 8000");
 });
