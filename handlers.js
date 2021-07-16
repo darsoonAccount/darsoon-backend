@@ -36,9 +36,11 @@ const  getTeachers = async (req, res) => {
 
   con.connect((err) => {
     if (err) throw err;
-    con.query("SELECT * FROM teachers", (err, result, fields) => {
+    con.query("SELECT * FROM teachers INNER JOIN users ON teachers.userId=users.userId", (err, result, fields) => {
       if (err) throw err;
-      console.log(result);
+
+      // console.log('RRRRRRRRRRResult', result[3]);
+      res.status(200).json(result);
     });
   });
 };
