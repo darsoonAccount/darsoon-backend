@@ -1,9 +1,17 @@
 "use strict";
 
-const { handleGetTest, handlePostTest, getTeachers, getOneTeacher, updateTeacher, deleteTeacher, addTeacher } = require("./handlers");
+const {
+  handleGetTest,
+  handlePostTest,
+  getTeachers,
+  getOneTeacher,
+  updateTeacher,
+  deleteTeacher,
+  addTeacher,
+} = require("./handlers");
 
 const express = require("express");
-var bodyParser = require("body-parser");
+// var bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
 
@@ -12,7 +20,8 @@ const app = express();
 app.use(cors());
 app.use(morgan("tiny"));
 
-app.use(bodyParser());
+// app.use(bodyParser.json());
+app.use(express.json());
 
 //requests for statics files will go to into the public folder.
 // app.use(express.static("public"));
@@ -34,13 +43,13 @@ app
   .use("/", express.static(__dirname + "/"));
 
 //root endpoint ------------------------------------------------------
-app.get("/", (req, res) => {
-  res
-    .status(200)
-    .send(
-      "Darsoon Backend v0.1 - for more informations and documentations please visit:https://github.com/hamidkd/darsoon-backend"
-    );
-});
+// app.get("/", (req, res) => {
+//   res
+//     .status(200)
+//     .send(
+//       "Darsoon Backend v0.1 - for more informations and documentations please visit:https://github.com/hamidkd/darsoon-backend"
+//     );
+// });
 
 // test endpoints
 app.get("/api/get-test", handleGetTest);
@@ -54,7 +63,7 @@ app.get("/api/teachers", getTeachers);
 app.get("/api/teachers/:id", getOneTeacher);
 app.get("/api/teachers/:id/update", updateTeacher);
 app.get("/api/teachers/:id/delete", deleteTeacher);
-app.get("/api/teachers/add", addTeacher);
+app.post("/api/teachers/add", addTeacher);
 
 //payers
 
@@ -70,7 +79,7 @@ app.get("/api/teachers/add", addTeacher);
 
 //classes
 
-//packages
+//withdraws
 
 //sessions
 
