@@ -31,22 +31,54 @@ export const findInDB = async ({ sql }: IfindInDBParameters) => {
   return [error, data];
 };
 
-export const insertInDB = ({sql}) => {
-  const con = await connectToDB();
+export const insertInDB = ({ sql }) => {
+  const con = connectToDB();
 
   let error = null;
   let qResult = null;
 
   con.connect((err) => {
     if (err) error = err;
-    con.query(sql, function (err, result) {
+    con.query(sql, (err, result) => {
       if (err) error = err;
       qResult = result;
-      });   
+    });
   });
 
-  return [error, qResult]
+  return [error, qResult];
+};
 
+export const updateInDB = ({ sql }) => {
+  const con = connectToDB();
 
+  let error = null;
+  let qResult = null;
 
+  con.connect((err) => {
+    if (err) error = err;
+    con.query(sql, (err, result) => {
+      if (err) error = err;
+      // console.log(result.affectedRows + " record(s) updated");
+      qResult = result;
+    });
+  });
+  return [error, qResult];
+};
 
+export const deleteInDB = ({ sql }) => {
+  const con = connectToDB();
+
+  let error = null;
+  let qResult = null;
+
+  con.connect((err) => {
+    if (err) error = err;
+    con.query(sql, (err, result) => {
+      if (err) error = err;
+      // console.log("Number of records deleted: " + result.affectedRows);
+      qResult = result;
+    });
+  });
+
+  return [error, qResult];
+};
