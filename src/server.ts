@@ -1,4 +1,6 @@
 "use strict";
+import express , {Request, Response, NextFunction} from 'express';
+
 
 const {
   handleGetTest,
@@ -10,7 +12,6 @@ const {
   addTeacher,
 } = require("./handlers");
 
-const express = require("express");
 // var bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -27,7 +28,7 @@ app.use(express.json());
 // app.use(express.static("public"));
 
 app
-  .use(function (req, res, next) {
+  .use(function (req: Request, res: Response, next: NextFunction) {
     res.header(
       "Access-Control-Allow-Methods",
       "OPTIONS, HEAD, GET, PUT, POST, DELETE"
