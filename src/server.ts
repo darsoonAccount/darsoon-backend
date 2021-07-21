@@ -49,7 +49,6 @@ app.get("/", (req, res) => {
 
 //for each entity there are five endpoints: /api/example-entities, /example-entities/:id, /example-entities/:id/add, /example-entities/:id/update, /example-entities/:id/delete
 //teachers
-console.log('HHHERERE');
 
 app.get("/api/teachers", getTeachers);
 app.get("/api/teachers/:id", getOneTeacher);
