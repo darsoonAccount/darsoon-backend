@@ -51,7 +51,7 @@ app.get("/", (req, res) => {
 //teachers
 
 app.get("/api/teachers", getTeachers);
-app.get("/api/teachers/:id", getOneTeacher);
+app.get("/api/teachers/:username", getOneTeacher);
 app.get("/api/teachers/:id/update", updateTeacher);
 app.get("/api/teachers/:id/delete", deleteTeacher);
 app.post("/api/teachers/add", addTeacher);

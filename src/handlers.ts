@@ -5,14 +5,34 @@ import { genPK } from "./utils";
 // Teachers handlers 👩‍🏫👨‍🏫  ***********************************************
 export const getTeachers = async (req, res) => {
   const [err, data] = await findInDB({
-    sql: "SELECT * FROM teachers INNER JOIN users ON teachers.userId=users.userId",
+    sql: `SELECT * FROM teachers INNER JOIN users ON teachers.userId=users.userId`,
   });
-  if (err) res.status(500).json({ status: 500, messeage: err });
+  if (err) {
+    res.status(500).json({ status: 500, messeage: err });
+    return;
+  }
   res.status(200).json({ status: 200, message: "Ok", data: data });
 };
 
 export const getOneTeacher = async (req, res) => {
-  console.log("fake get one teacher");
+  const { username } = req.params;
+  console.log("ususus", username);
+
+  const [err, data] = await findInDB({
+    sql: `SELECT * FROM teachers INNER JOIN users ON teachers.userId=users.userId WHERE username = '${username}'`,
+  });
+  if (err) {
+    res.status(500).json({ status: 500, messeage: err });
+    return;
+  }
+  if (!data || data.length === 0) {
+    res
+      .status(400)
+      .json({ status: 400, message: "No teacher with this username" });
+    return;
+  }
+  res.status(200).json({ status: 200, message: "Ok", data: data[0] });
+  return;
 };
 
 export const updateTeacher = async (req, res) => {
