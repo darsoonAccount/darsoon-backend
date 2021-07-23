@@ -1,39 +1,24 @@
 import { connectToDB, findInDB, insertInDB, deleteInDB } from "../dbConnector";
-import { genPK } from "../utils";
+import {
+  deleteOneAndSend,
+  findUserId,
+  genPK,
+  getAllAndSend,
+  getOneAndSend,
+} from "../utils";
 
 // Teachers handlers 👩‍🏫👨‍🏫  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 //📄📄📄
 export const getTeachers = async (req, res) => {
-  const con = await connectToDB();
-  try {
-    const [rows, fields] = await con.execute(
-      `SELECT * FROM teachers INNER JOIN users ON teachers.userId = users.userId`
-    );
-    res.status(200).json({ status: 200, message: "success", data: rows });
-  } catch (err) {
-    res.status(500).json({ status: 500, message: err.message });
-  }
+  const sql = `SELECT * FROM teachers INNER JOIN users ON teachers.userId = users.userId`;
+  await getAllAndSend({ sql, req, res });
 };
 
 export const getOneTeacher = async (req, res) => {
   const { username } = req.params;
-
-  const [err, data] = await findInDB({
-    sql: `SELECT * FROM teachers INNER JOIN users ON teachers.userId=users.userId WHERE username = '${username}'`,
-  });
-  if (err) {
-    res.status(500).json({ status: 500, messeage: err.message });
-    return;
-  }
-  if (!data || data.length === 0) {
-    res
-      .status(400)
-      .json({ status: 400, message: "No teacher with this username" });
-    return;
-  }
-  res.status(200).json({ status: 200, message: "Ok", data: data[0] });
-  return;
+  const sql = `SELECT * FROM teachers INNER JOIN users ON teachers.userId=users.userId WHERE username = '${username}'`;
+  await getOneAndSend({ req, res, sql });
 };
 
 export const updateTeacher = async (req, res) => {
@@ -50,30 +35,8 @@ export const updateTeacher = async (req, res) => {
 
 export const deleteTeacher = async (req, res) => {
   const { username } = req.params;
-  const con = await connectToDB();
-  try {
-    await con.beginTransaction();
-
-    const [userRows, userFields] = await con.execute(
-      `SELECT users WHERE users.username = '${username}`
-    );
-    const userId = userRows[0].userId;
-    const [deleteResult, deleteFields] = await con.execute(
-      `DELETE teachers WHERE teachers.userId = '${userId}`
-    );
-    await con.commit();
-    if (deleteResult.affectedRows === 0) {
-      res.json({ status: 400, message: "No teacher with this username" });
-      return;
-    } else {
-      res.status(200).json({ status: 200, message: "Teacher deleted" });
-      return;
-    }
-  } catch (error) {
-    con.rollback();
-    console.log(error);
-    res.status(500).json({ status: 500, messeage: error.message });
-  } 
+  const sql = `DELETE teachers.* FROM teachers INNER JOIN users ON teachers.userId = users.userId WHERE users.username = '${username}'`;
+  await deleteOneAndSend({ req, res, sql });
 };
 
 export const addTeacher = async (req, res) => {

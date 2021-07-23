@@ -1,36 +1,36 @@
 import { connectToDB, findInDB, insertInDB, deleteInDB } from "../dbConnector";
 import {
   deleteOneAndSend,
+  findUserId,
   genPK,
   getAllAndSend,
   getOneAndSend,
-  isDataValid,
 } from "../utils";
 
 //Users 👤👤 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 //📄📄📄
-export const getUsers = async (req, res) => {
-  const sql = `SELECT * FROM users`;
+export const getPayers = async (req, res) => {
+  const sql = `SELECT * FROM payers INNER JOIN users ON payers.userId = users.userId`;
   await getAllAndSend({ sql, req, res });
 };
 
 //📄
-export const getOneUser = async (req, res) => {
+export const getOnePayer = async (req, res) => {
   const { username } = req.params;
-  const sql = `SELECT * FROM users WHERE users.username = '${username}'`;
+  const sql = `SELECT * FROM payers INNER JOIN users ON payers.userId=users.userId WHERE username = '${username}'`;
   await getOneAndSend({ req, res, sql });
 };
 
 //🚮
-export const deleteUser = async (req, res) => {
+export const deletePayer = async (req, res) => {
   const { username } = req.params;
-  const sql = `DELETE FROM users WHERE users.username = '${username}'`;
+  const sql = `DELETE payers.* FROM payers INNER JOIN users ON payers.userId = users.userId WHERE users.username = '${username}'`;
   await deleteOneAndSend({ req, res, sql });
 };
 
 //➕📄
-export const addUser = async (req, res) => {
+export const addPayer = async (req, res) => {
   const { username } = req.params;
   const { firstname, lastname, password, email } = req.body;
   if (!username || !firstname || !lastname || !password || !email) {
@@ -59,7 +59,7 @@ export const addUser = async (req, res) => {
 };
 
 //📝
-export const updateUser = async (req, res) => {
+export const updatePayer = async (req, res) => {
   const { username } = req.params;
   const { firstname, lastname, password, email } = req.body;
   const update = { firstname, lastname, password, email };

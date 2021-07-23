@@ -9,10 +9,10 @@ export const connectToDB = async () => {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB,
-  }
+  };
 
-  const pool = await mysql.createPool(config);
-  return pool;
+  const con = await mysql.createPool(config);
+  return con;
 };
 
 interface IfindInDBParameters {
@@ -38,7 +38,6 @@ export const insertInDB = async ({ sql }: IfindInDBParameters) => {
   }
 };
 
-
 export const deleteInDB = async ({ sql }: IfindInDBParameters) => {
   try {
     const con = await connectToDB();
@@ -50,5 +49,3 @@ export const deleteInDB = async ({ sql }: IfindInDBParameters) => {
     return [error, null];
   }
 };
-
-
