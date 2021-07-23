@@ -7,14 +7,24 @@ import {
   addUser,
   updateUser,
   deleteUser,
+} from "./handlers/users";
+
+import {
   getTeachers,
   getOneTeacher,
   updateTeacher,
   deleteTeacher,
   addTeacher,
-} from "./handlers";
+} from "./handlers/teachers";
 
-// var bodyParser = require("body-parser");
+import {
+  getPayers,
+  getOnePayer,
+  addPayer,
+  updatePayer,
+  deletePayer,
+} from "./handlers/payers";
+
 const morgan = require("morgan");
 const cors = require("cors");
 
@@ -56,19 +66,23 @@ app.get("/", (req, res) => {
 //users 👤👤
 app.get("/api/users", getUsers);
 app.get("/api/users/:username", getOneUser);
+app.delete("/api/users/:username/delete", deleteUser);
 app.post("/api/users/:username/add", addUser);
 app.patch("/api/users/:username/update", updateUser);
-app.delete("/api/users/:username/delete", deleteUser);
 
 //teachers 👩‍🏫👨‍🏫
-
 app.get("/api/teachers", getTeachers);
 app.get("/api/teachers/:username", getOneTeacher);
-app.post("/api/teachers/add", addTeacher);
-app.patch("/api/teachers/:username/update", updateTeacher);
 app.delete("/api/teachers/:username/delete", deleteTeacher);
+app.post("/api/teachers/:username/add", addTeacher);
+app.patch("/api/teachers/:username/update", updateTeacher);
 
 //payers
+app.get("/api/payers", getPayers);
+app.get("/api/payers/:username", getOnePayer);
+app.delete("/api/payers/:username/delete", deletePayer);
+app.post("/api/payers/:username/add", addPayer);
+app.patch("/api/payers/:username/update", updatePayer);
 
 //admins
 
