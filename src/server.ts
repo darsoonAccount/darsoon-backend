@@ -2,6 +2,11 @@
 import express, { Request, Response, NextFunction } from "express";
 
 import {
+  getUsers,
+  getOneUser,
+  addUser,
+  updateUser,
+  deleteUser,
   getTeachers,
   getOneTeacher,
   updateTeacher,
@@ -48,13 +53,20 @@ app.get("/", (req, res) => {
 });
 
 //for each entity there are five endpoints: /api/example-entities, /example-entities/:id, /example-entities/:id/add, /example-entities/:id/update, /example-entities/:id/delete
-//teachers
+//users 👤👤
+app.get("/api/users", getUsers);
+app.get("/api/users/:username", getOneUser);
+app.post("/api/users/:username/add", addUser);
+app.patch("/api/users/:username/update", updateUser);
+app.delete("/api/users/:username/delete", deleteUser);
+
+//teachers 👩‍🏫👨‍🏫
 
 app.get("/api/teachers", getTeachers);
 app.get("/api/teachers/:username", getOneTeacher);
-app.get("/api/teachers/:id/update", updateTeacher);
-app.get("/api/teachers/:id/delete", deleteTeacher);
 app.post("/api/teachers/add", addTeacher);
+app.patch("/api/teachers/:username/update", updateTeacher);
+app.delete("/api/teachers/:username/delete", deleteTeacher);
 
 //payers
 

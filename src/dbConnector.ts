@@ -4,14 +4,15 @@ const mysql = require("mysql2/promise");
 require("dotenv").config();
 
 export const connectToDB = async () => {
-  const con = await mysql.createConnection({
-    //should be repalce with pool
+  const config = {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB,
-  });
-  return con;
+  }
+
+  const pool = await mysql.createPool(config);
+  return pool;
 };
 
 interface IfindInDBParameters {
@@ -20,7 +21,6 @@ interface IfindInDBParameters {
 export const findInDB = async ({ sql }: IfindInDBParameters) => {
   try {
     const con = await connectToDB();
-    await con.connect();
     const [rows, fields] = await con.execute(sql);
     return [null, rows];
   } catch (error) {
@@ -31,10 +31,24 @@ export const findInDB = async ({ sql }: IfindInDBParameters) => {
 export const insertInDB = async ({ sql }: IfindInDBParameters) => {
   try {
     const con = await connectToDB();
-    await con.connect();
     const [excutionResult, fields] = await con.execute(sql);
     return [null, excutionResult];
   } catch (error) {
     return [error, null];
   }
 };
+
+
+export const deleteInDB = async ({ sql }: IfindInDBParameters) => {
+  try {
+    const con = await connectToDB();
+    await con.connect();
+    const [rows, fields] = await con.execute(sql);
+    return [null, rows];
+  } catch (error) {
+    console.log(error);
+    return [error, null];
+  }
+};
+
+
