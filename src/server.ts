@@ -1,29 +1,52 @@
 "use strict";
 import express, { Request, Response, NextFunction } from "express";
-
 import {
   getUsers,
-  getOneUser,
-  addUser,
-  updateUser,
-  deleteUser,
-} from "./handlers/users";
-
-import {
   getTeachers,
-  getOneTeacher,
-  updateTeacher,
-  deleteTeacher,
-  addTeacher,
-} from "./handlers/teachers";
+  getPayers,
+  getAdmins,
+  getPaymentsByPayers,
+  getPaymentsToTeachers,
+  getStudents,
+  getTopics,
+  getExpertises,
+  getProducts,
+  getClasses,
+  getParticipations,
+  getWithdraws,
+  getSessions,
+  getFeedbacks,
+} from "./handlers/getAll";
 
 import {
-  getPayers,
+  getOneUser,
+  getOneAdmin,
+  getOneTeacher,
   getOnePayer,
-  addPayer,
-  updatePayer,
+  getOneStudent,
+  getOneTopic,
+  getOneExpertise,
+  getOneProduct,
+  getOneClass,
+  getOneParticipation,
+  getOneSessions,
+  getOneFeedback,
+  getOneWithdraw,
+  getOnePayementToTeacher,
+  getOnePayementsByPayers,
+} from "./handlers/getOne";
+
+import {
+  deleteUser,
+  deleteTeacher,
   deletePayer,
-} from "./handlers/payers";
+  deleteAdmin,
+} from "./handlers/deleteOne";
+
+import { addUser, addAdmin, addPayer, addTeacher } from "./handlers/addOne";
+
+import { updateUser, updateTeacher, updatePayer } from "./handlers/updateOne";
+import { showSchema } from "./updateSchema";
 
 const morgan = require("morgan");
 const cors = require("cors");
@@ -62,6 +85,9 @@ app.get("/", (req, res) => {
   res.send("Hello World from Darsoon Server");
 });
 
+//show data schema
+app.get("/api/schema", showSchema);
+
 //for each entity there are five endpoints: /api/example-entities, /example-entities/:id, /example-entities/:id/add, /example-entities/:id/update, /example-entities/:id/delete
 //users 👤👤
 app.get("/api/users", getUsers);
@@ -86,6 +112,10 @@ app.patch("/api/payers/:username/update", updatePayer);
 
 //admins
 
+//payementsByPayers
+
+//PayementsToTeachers
+
 //students
 
 //topics
@@ -95,6 +125,8 @@ app.patch("/api/payers/:username/update", updatePayer);
 //products
 
 //classes
+
+//paerticipations
 
 //withdraws
 
