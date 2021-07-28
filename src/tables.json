@@ -1,0 +1,62 @@
+{
+  "classes": {
+    "entity": "class",
+    "pkprefix": "cls"
+  },
+  "teachers": {
+    "entity": "teacher",
+    "pkprefix": "tch"
+  },
+  "users": {
+    "entity": "user",
+    "pkprefix": "usr"
+  },
+  "students": {
+    "entity": "student",
+    "pkprefix": "std"
+  },
+  "admins": {
+    "entity": "admin",
+    "pkprefix": "adm"
+  },
+  "payers": {
+    "entity": "payer",
+    "pkprefix": "pyr"
+  },
+  "topics": {
+    "entity": "topic",
+    "pkprefix": "tpc"
+  },
+  "expertises": {
+    "entity": "expertise",
+    "pkprefix": "exp"
+  },
+  "products": {
+    "entity": "product",
+    "pkprefix": "prd"
+  },
+  "withdraws": {
+    "entity": "withdraws",
+    "pkprefix": "wdr"
+  },
+  "sessions": {
+    "entity": "session",
+    "pkprefix": "ssn"
+  },
+  "feedbacks": {
+    "entity": "feedback",
+    "pkprefix": "fdb"
+  },
+  "deposits": {
+    "entity": "depsit",
+    "pkprefix": "dpt"
+  },
+  "participations": {
+    "entity": "participation",
+    "pkprefix": "prt"
+  },
+  "paymentToTeachrs": {
+    "entity": "paymentToTeacher",
+    "pkprefix": "pyt"
+  }
+}
