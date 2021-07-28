@@ -19,7 +19,7 @@ export const showSchema = async (req, res) => {
       schema[table] = columns;
     });
 
-    res.status(200).json({ status: 200, message: "success", data: schema });
+    res.status(200).json(schema);
   } catch (err) {
     res.status(500).json({ status: 500, message: err.message });
   }
@@ -42,7 +42,11 @@ const getColumnsOf = async (table) => {
   try {
     const sql = `show columns FROM ${table}`;
     const result = await con.execute(sql);
-    return result[0];
+    let columns = {};
+    result[0].forEach((column) => {
+      columns[column.Field] = column;
+    });
+    return columns;
   } catch (err) {
     throw err;
   }
