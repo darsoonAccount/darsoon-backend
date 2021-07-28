@@ -1,0 +1,672 @@
+{
+  "admins": {
+    "adminId": {
+      "Field": "adminId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "userId": {
+      "Field": "userId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "classes": {
+    "classId": {
+      "Field": "classId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "productId": {
+      "Field": "productId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "creationDate": {
+      "Field": "creationDate",
+      "Type": "date",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "endDate": {
+      "Field": "endDate",
+      "Type": "date",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "startDateOfGroupClass": {
+      "Field": "startDateOfGroupClass",
+      "Type": "date",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "description": {
+      "Field": "description",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "isIntroduction": {
+      "Field": "isIntroduction",
+      "Type": "tinyint",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "deposit": {
+    "depositId": {
+      "Field": "depositId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "payerId": {
+      "Field": "payerId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "date": {
+      "Field": "date",
+      "Type": "varchar(45)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "time": {
+      "Field": "time",
+      "Type": "time",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "amount": {
+      "Field": "amount",
+      "Type": "decimal(10,2)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "currency": {
+      "Field": "currency",
+      "Type": "varchar(45)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CAD",
+      "Extra": ""
+    }
+  },
+  "expertises": {
+    "expertiseId": {
+      "Field": "expertiseId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "teacherId": {
+      "Field": "teacherId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "topicId": {
+      "Field": "topicId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "name": {
+      "Field": "name",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "description": {
+      "Field": "description",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "feedbacks": {
+    "feedbackId": {
+      "Field": "feedbackId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "sessionId": {
+      "Field": "sessionId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "withdrawId": {
+      "Field": "withdrawId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "classId": {
+      "Field": "classId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "text": {
+      "Field": "text",
+      "Type": "varchar(10000)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "rating": {
+      "Field": "rating",
+      "Type": "decimal(2,1)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "participations": {
+    "participationId": {
+      "Field": "participationId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "classId": {
+      "Field": "classId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "studentId": {
+      "Field": "studentId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "date": {
+      "Field": "date",
+      "Type": "date",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "time": {
+      "Field": "time",
+      "Type": "time",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "payers": {
+    "payerId": {
+      "Field": "payerId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "userId": {
+      "Field": "userId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": null,
+      "Extra": ""
+    },
+    "credit": {
+      "Field": "credit",
+      "Type": "decimal(10,2)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "paymenttoteachers": {
+    "paymentToTeacherId": {
+      "Field": "paymentToTeacherId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "adminId": {
+      "Field": "adminId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "teacherId": {
+      "Field": "teacherId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "date": {
+      "Field": "date",
+      "Type": "date",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "time": {
+      "Field": "time",
+      "Type": "time",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "amount": {
+      "Field": "amount",
+      "Type": "decimal(10,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "currncy": {
+      "Field": "currncy",
+      "Type": "varchar(45)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CAD",
+      "Extra": ""
+    }
+  },
+  "products": {
+    "productId": {
+      "Field": "productId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "expertiseId": {
+      "Field": "expertiseId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "pricePerParticipant": {
+      "Field": "pricePerParticipant",
+      "Type": "decimal(2,0)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "startDate": {
+      "Field": "startDate",
+      "Type": "date",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "endDate": {
+      "Field": "endDate",
+      "Type": "date",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "description": {
+      "Field": "description",
+      "Type": "varchar(10000)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "extraFamilyMemberCharge": {
+      "Field": "extraFamilyMemberCharge",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "isGroupClass": {
+      "Field": "isGroupClass",
+      "Type": "tinyint",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "maxNumberOfStudents": {
+      "Field": "maxNumberOfStudents",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "introductionFee": {
+      "Field": "introductionFee",
+      "Type": "decimal(10,2)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "sessionDuration": {
+      "Field": "sessionDuration",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "numberOfSession": {
+      "Field": "numberOfSession",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "sessions": {
+    "sessionId": {
+      "Field": "sessionId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "classId": {
+      "Field": "classId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "student": {
+      "Field": "student",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "date": {
+      "Field": "date",
+      "Type": "date",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "time": {
+      "Field": "time",
+      "Type": "time",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "students": {
+    "studentId": {
+      "Field": "studentId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "payerId": {
+      "Field": "payerId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "firstName": {
+      "Field": "firstName",
+      "Type": "varchar(45)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "lastName": {
+      "Field": "lastName",
+      "Type": "varchar(45)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "dateOfBirth": {
+      "Field": "dateOfBirth",
+      "Type": "date",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "teachers": {
+    "teacherId": {
+      "Field": "teacherId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "userId": {
+      "Field": "userId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": null,
+      "Extra": ""
+    },
+    "bio": {
+      "Field": "bio",
+      "Type": "varchar(10000)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "topics": {
+    "topicId": {
+      "Field": "topicId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "name": {
+      "Field": "name",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "description": {
+      "Field": "description",
+      "Type": "varchar(10000)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "users": {
+    "userId": {
+      "Field": "userId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "username": {
+      "Field": "username",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": null,
+      "Extra": ""
+    },
+    "email": {
+      "Field": "email",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": null,
+      "Extra": ""
+    },
+    "firstname": {
+      "Field": "firstname",
+      "Type": "varchar(45)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "lastname": {
+      "Field": "lastname",
+      "Type": "varchar(45)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "password": {
+      "Field": "password",
+      "Type": "varchar(45)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "withdraws": {
+    "withdrawId": {
+      "Field": "withdrawId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "payerId": {
+      "Field": "payerId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "classId": {
+      "Field": "classId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "purchaseDate": {
+      "Field": "purchaseDate",
+      "Type": "date",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "purchaseTime": {
+      "Field": "purchaseTime",
+      "Type": "time",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  }
+}
