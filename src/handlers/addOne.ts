@@ -1,202 +1,125 @@
-import {
-  isValid,
-  isAllValid,
-  addOneAndSend,
-  genPK,
-  ValidateAddAndSend,
-} from "../utils";
+import { connectToDB } from "../dbConnector";
+import schema from "../schema.json";
+import tables from "../tables.json";
+import { isValid } from "../validator";
+import { genPK } from "../utils";
+
 //➕📄
-//users -------------------------------------------------------------------------
+//users add handler -------------------------------------------------------------------------
 export const addUser = async (req, res) => {
   const { username } = req.params;
-  const { firstname, lastname, password, email } = req.body;
-  const data = { username, firstname, lastname, password, email };
-  const dataPatternArray = [
-    ["username", "string"],
-    ["firstname", "alpha"],
-    ["lastname", "alpha"],
-    ["password", "string"],
-    ["email", "email"],
-  ];
+  const data = { ...req.body, username };
+  const tableSchema = schema.users;
   await ValidateAddAndSend({
     req,
     res,
     entity: "user",
+    table: "users",
     PKprefix: "usr",
     data,
-    dataPatternArray,
+    tableSchema,
   });
 };
 
-// export const addUser = async (req, res) => {
-//   const { username } = req.params;
-//   const { firstname, lastname, password, email } = req.body;
-
-//   const isVaild = isAllValid([
-//     { data: username, dataType: "string" },
-//     { data: firstname, dataType: "alpha" },
-//     { data: lastname, dataType: "alpha" },
-//     { data: password, dataType: "string" },
-//     { data: email, dataType: "email" },
-//   ]);
-
-//   if (!isVaild) {
-//     res
-//       .status(400)
-//       .json({ status: 400, message: "Please provide all required data." });
-//     return;
-//   }
-//   const userId = genPK("usr");
-//   const sql = `INSERT INTO users  (userId, username, firstname, lastname, email, password) VALUES ('${userId}', '${username}', '${firstname}' , '${lastname}' , '${email}', '${password}')`;
-//   await addOneAndSend({ req, res, sql });
-// };
-
-//teachers -------------------------------------------------------------------------
-export const addTeacher = async (req, res) => {
-  const { username } = req.params;
-  const { bio } = req.body;
-
-  const isVaild = isAllValid([]);
-  if (!isVaild) {
-    res
-      .status(400)
-      .json({ status: 400, message: "Please provide all required data." });
+//profile add handler -------------------------------------------------------------------------
+export const addProfile = async (req, res) => {
+  const { typeOfUsers, username } = req.params;
+  if (!["teachers", "admins", "payers", "students"].includes(typeOfUsers)) {
+    res.status(404).json({
+      status: 404,
+      message: "Page Not Found",
+    });
     return;
   }
-
-  const teacherId = genPK("tch");
-  const sql = `INSERT INTO teachers (teacherId, userId) SELECT '${teacherId}', users.userId FROM users WHERE users.username = '${username}'`;
-  await addOneAndSend({ req, res, sql });
-};
-
-//payers -------------------------------------------------------------------------
-export const addPayer = async (req, res) => {
-  const { username } = req.params;
-  const {} = req.body;
-
-  const isVaild = isAllValid([]);
-  if (!isVaild) {
-    res
-      .status(400)
-      .json({ status: 400, message: "Please provide all required data." });
-    return;
-  }
-
-  const payerId = genPK("pyr");
-  const sql = `INSERT INTO payers (payerId, userId, credit) SELECT '${payerId}', users.userId, 0 FROM users WHERE users.username = '${username}'`;
-  await addOneAndSend({ req, res, sql });
-};
-
-//admins -------------------------------------------------------------------------
-export const addAdmin = async (req, res) => {
-  const { username } = req.params;
-  const {} = req.body;
-
-  const isVaild = isAllValid([]);
-  if (!isVaild) {
-    res
-      .status(400)
-      .json({ status: 400, message: "Please provide all required data." });
-    return;
-  }
-
-  const adminId = genPK("adm");
-  const sql = `INSERT INTO admins (adminId, userId, credit) SELECT '${adminId}', users.userId, 0 FROM users WHERE users.username = '${username}'`;
-  await addOneAndSend({ req, res, sql });
-};
-//students -------------------------------------------------------------------------
-//?
-
-//topics -------------------------------------------------------------------------
-export const addTopic = async (req, res) => {
-  const { name, description } = req.body;
-  const data = { name, description };
-  const dataPatternArray = [
-    ["name", "alphanumeric"],
-    ["description", "string"],
-  ];
+  const data = { ...req.body };
+  const tableSchema = schema[typeOfUsers];
   await ValidateAddAndSend({
     req,
     res,
-    entity: "topic",
-    PKprefix: "tpc",
+    entity: tables[typeOfUsers].entity,
+    table: typeOfUsers,
+    PKprefix: tables[typeOfUsers].pkprefix,
     data,
-    dataPatternArray,
+    tableSchema,
   });
 };
 
-//expertises -------------------------------------------------------------------------
-export const addExpertise = async (req, res) => {
-  const { teacherId, topicId, name, description } = req.body;
-  const data = { teacherId, topicId, name, description };
-  const dataPatternArray = [
-    ["teacherId", "string"],
-    ["topicId", "string"],
-    ["name", "alphanumeric"],
-    ["description", "string"],
-  ];
+// entities add handler -------------------------------------------------------------------------
+export const addEntity = async (req, res) => {
+  const { entities } = req.params;
+  if (!Object.keys(schema).includes(entities)) {
+    res.status(404).json({
+      status: 404,
+      message: "Page Not Found",
+    });
+    return;
+  }
+  const data = req.body;
+  const tableSchema = schema[entities];
   await ValidateAddAndSend({
     req,
     res,
-    entity: "expertise",
-    PKprefix: "exp",
+    entity: tables[entities].entity,
+    table: entities,
+    PKprefix: tables[entities].pkprefix,
     data,
-    dataPatternArray,
+    tableSchema,
   });
 };
 
-//products -------------------------------------------------------------------------
-export const addProduct = async (req, res) => {
-  const {
-    expertiseId,
-    pricePerParticipant,
-    startDate,
-    endData,
-    description,
-    extraFamilyMemberCharge,
-    isGroupClass,
-    maxNumberOfStudents,
-    introductionFee,
-    sessionDuration,
-    numberOfSessions,
-  } = req.body;
-  const data = {
-    expertiseId,
-    pricePerParticipant,
-    startDate,
-    endData,
-    description,
-    extraFamilyMemberCharge,
-    isGroupClass,
-    maxNumberOfStudents,
-    introductionFee,
-    sessionDuration,
-    numberOfSessions,
-  };
-  const dataPatternArray = [
-    ["expertiseId", "string"],
-    ["pricePerParticipant", "decimal"],
-    ["startDate", "data"],
-    ["endDate", "data"],
-    [description, "string"],
-    ["extraFamilyMemberCharge", "int"],
-    ["isGroupClass", "boolean"],
-    ["maxNumberOfStudents", "int"],
-    [introductionFee, "decimal"],
-    ["sessionDuration", "int"],
-    ["numberOfSessions", "int"],
-  ];
+// utility functions -------------------------------------------------------------------------
+
+interface IvalidateAddAndSend {
+  req: any;
+  res: any;
+  entity: string;
+  PKprefix: string;
+  data: any;
+  dataPatternArray: any;
+}
+
+export const ValidateAddAndSend = async ({
+  req,
+  res,
+  entity,
+  table,
+  PKprefix,
+  data,
+  tableSchema,
+}) => {
+  const [isDataValid, validationMessage] = isValid({
+    data,
+    tableSchema,
+    isUpdating: false,
+  });
+  if (!isDataValid) {
+    res.status(400).json({ status: 400, message: validationMessage });
+    return;
+  }
+  const pk = genPK(PKprefix);
+  const keys = Object.keys(data).filter((key) => data[key] !== null);
+  const values = Object.values(data)
+    .filter((value) => value !== null)
+    .map((value) => `'${value}'`);
+  const sql = `INSERT INTO ${table} (${entity}Id ,${keys}) VALUES ('${pk}', ${values})`;
+  await addOneAndSend({ req, res, sql });
 };
-//classes -------------------------------------------------------------------------
 
-//paerticipations -------------------------------------------------------------------------
-
-//sessions -------------------------------------------------------------------------
-
-//feedbacks -------------------------------------------------------------------------
-
-//payementsByPayers -------------------------------------------------------------------------
-
-//PayementsToTeachers -------------------------------------------------------------------------
-
-//withdraws -------------------------------------------------------------------------
+const addOneAndSend = async ({ req, res, sql }) => {
+  const con = await connectToDB();
+  try {
+    const [insertResult, fields] = await con.execute(sql);
+    if (insertResult.affectedRows === 1) {
+      res.status(200).json({ status: 200, message: "succefully added" });
+      return;
+    }
+  } catch (err) {
+    if (err.message.includes("Dup")) {
+      res.status(400).json({ status: 400, message: err.message });
+      return;
+    } else {
+      res.status(500).json({ status: 500, message: err.message });
+      return;
+    }
+  }
+};
