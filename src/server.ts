@@ -1,59 +1,20 @@
 "use strict";
 import express, { Request, Response, NextFunction } from "express";
-import {
-  getUsers,
-  getTeachers,
-  getPayers,
-  getAdmins,
-  getPaymentsByPayers,
-  getPaymentsToTeachers,
-  getStudents,
-  getTopics,
-  getExpertises,
-  getProducts,
-  getClasses,
-  getParticipations,
-  getWithdraws,
-  getSessions,
-  getFeedbacks,
-} from "./handlers/getAll";
 
-import {
-  getOneUser,
-  getOneAdmin,
-  getOneTeacher,
-  getOnePayer,
-  getOneStudent,
-  getOneTopic,
-  getOneExpertise,
-  getOneProduct,
-  getOneClass,
-  getOneParticipation,
-  getOneSessions,
-  getOneFeedback,
-  getOneWithdraw,
-  getOnePayementToTeacher,
-  getOnePayementsByPayers,
-} from "./handlers/getOne";
+import { getUsers, getProfiles, getEntities } from "./handlers/getAll";
+import { getOneUser, getOneProfile, getOneEntitiy } from "./handlers/getOne";
+import { deleteUser, deleteProfile, deleteEntitiy } from "./handlers/deleteOne";
+import { addUser, addProfile, addEntity } from "./handlers/addOne";
+import { updateUser, updateProfile, updateEntity } from "./handlers/updateOne";
 
-import {
-  deleteUser,
-  deleteTeacher,
-  deletePayer,
-  deleteAdmin,
-} from "./handlers/deleteOne";
-
-import { addUser, addAdmin, addPayer, addTeacher } from "./handlers/addOne";
-
-import { updateUser, updateTeacher, updatePayer } from "./handlers/updateOne";
-import { showSchema } from "./updateSchema";
+import { showSchema } from "./handlers/showSchema";
 
 const morgan = require("morgan");
 const cors = require("cors");
 
 const app = express();
-//this will give you HTTP requests log in console
 app.use(cors());
+//this will give you HTTP requests log in console:
 app.use(morgan("tiny"));
 
 // app.use(bodyParser.json());
@@ -88,51 +49,28 @@ app.get("/", (req, res) => {
 //show data schema
 app.get("/api/schema", showSchema);
 
-//for each entity there are five endpoints: /api/example-entities, /example-entities/:id, /example-entities/:id/add, /example-entities/:id/update, /example-entities/:id/delete
-//users 👤👤
+//users -- these endpoints are for users table. these endpoint work with usename.
 app.get("/api/users", getUsers);
 app.get("/api/users/:username", getOneUser);
 app.delete("/api/users/:username/delete", deleteUser);
 app.post("/api/users/:username/add", addUser);
 app.patch("/api/users/:username/update", updateUser);
 
-//teachers 👩‍🏫👨‍🏫
-app.get("/api/teachers", getTeachers);
-app.get("/api/teachers/:username", getOneTeacher);
-app.delete("/api/teachers/:username/delete", deleteTeacher);
-app.post("/api/teachers/:username/add", addTeacher);
-app.patch("/api/teachers/:username/update", updateTeacher);
+//user profiles -- these endpoits are for teachers, payers, students and admins.
+//these endpoints work with username. also the getters return a profile with user filds (usernam, firsname, lastname ,...)
+app.get("/api/p/:typeOfUsers", getProfiles);
+app.get("/api/p/:typeOfUsers/:username", getOneProfile);
+app.delete("/api/p/:typeOfUsers/:username/delete", deleteProfile);
+app.post("/api/p/:typeOfUsers/:username/add", addProfile);
+app.patch("/api/p/:typeOfUsers/:username/update", updateProfile);
 
-//payers
-app.get("/api/payers", getPayers);
-app.get("/api/payers/:username", getOnePayer);
-app.delete("/api/payers/:username/delete", deletePayer);
-app.post("/api/payers/:username/add", addPayer);
-app.patch("/api/payers/:username/update", updatePayer);
-
-//admins
-
-//payementsByPayers
-
-//PayementsToTeachers
-
-//students
-
-//topics
-
-//expertises
-
-//products
-
-//classes
-
-//paerticipations
-
-//withdraws
-
-//sessions
-
-//feedbacks
+//entities -- thses endpoints work for all tables including users, teachers, payers, students and admins.
+// these endpoints work with the Primary Key of each table.
+app.get("/api/:entities", getEntities);
+app.get("/api/:entities/:id", getOneEntitiy);
+app.delete("/api/:entities/:id/delete", deleteEntitiy);
+app.post("/api/:entities/add", addEntity);
+app.patch("/api/:entities/:id/update", updateEntity);
 
 // this is the catch all endpoint ---------------------------------
 
