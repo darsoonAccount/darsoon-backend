@@ -60,7 +60,15 @@
     },
     "description": {
       "Field": "description",
-      "Type": "varchar(45)",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "descriptionFa": {
+      "Field": "descriptionFa",
+      "Type": "text",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -158,9 +166,25 @@
       "Default": null,
       "Extra": ""
     },
+    "nameFa": {
+      "Field": "nameFa",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
     "description": {
       "Field": "description",
-      "Type": "varchar(45)",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "descriptionFa": {
+      "Field": "descriptionFa",
+      "Type": "text",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -202,7 +226,7 @@
     },
     "text": {
       "Field": "text",
-      "Type": "varchar(10000)",
+      "Type": "text",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -384,9 +408,33 @@
       "Default": null,
       "Extra": ""
     },
+    "name": {
+      "Field": "name",
+      "Type": "varchar(300)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "nameFa": {
+      "Field": "nameFa",
+      "Type": "varchar(300)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
     "description": {
       "Field": "description",
-      "Type": "varchar(10000)",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "descriptionFa": {
+      "Field": "descriptionFa",
+      "Type": "text",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -500,27 +548,19 @@
       "Default": null,
       "Extra": ""
     },
-    "firstName": {
-      "Field": "firstName",
-      "Type": "varchar(45)",
-      "Null": "NO",
-      "Key": "",
-      "Default": null,
-      "Extra": ""
-    },
-    "lastName": {
-      "Field": "lastName",
-      "Type": "varchar(45)",
-      "Null": "NO",
-      "Key": "",
-      "Default": null,
-      "Extra": ""
-    },
     "dateOfBirth": {
       "Field": "dateOfBirth",
       "Type": "date",
       "Null": "NO",
       "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "userId": {
+      "Field": "userId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
       "Default": null,
       "Extra": ""
     }
@@ -544,7 +584,199 @@
     },
     "bio": {
       "Field": "bio",
-      "Type": "varchar(10000)",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "bioFa": {
+      "Field": "bioFa",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "techingMethod": {
+      "Field": "techingMethod",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "techingMethodFa": {
+      "Field": "techingMethodFa",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "experience": {
+      "Field": "experience",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "experienceFa": {
+      "Field": "experienceFa",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "videoLink": {
+      "Field": "videoLink",
+      "Type": "varchar(1000)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "bannerLink": {
+      "Field": "bannerLink",
+      "Type": "varchar(1000)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "instagram": {
+      "Field": "instagram",
+      "Type": "varchar(1000)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "Linkedin": {
+      "Field": "Linkedin",
+      "Type": "varchar(1000)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "englishFluency": {
+      "Field": "englishFluency",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "status": {
+      "Field": "status",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "notes": {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "levelOfEducation": {
+      "Field": "levelOfEducation",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "university": {
+      "Field": "university",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "fieildOfStudy": {
+      "Field": "fieildOfStudy",
+      "Type": "varchar(200)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "inPersonTeachingExperience": {
+      "Field": "inPersonTeachingExperience",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "onlineTeachingExperience": {
+      "Field": "onlineTeachingExperience",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "abroadTeachingExperience": {
+      "Field": "abroadTeachingExperience",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "classesToTeach": {
+      "Field": "classesToTeach",
+      "Type": "varchar(300)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "classDuration": {
+      "Field": "classDuration",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "ageGroup": {
+      "Field": "ageGroup",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "pricePerSession": {
+      "Field": "pricePerSession",
+      "Type": "decimal(6,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "nameOfRefrencePerson": {
+      "Field": "nameOfRefrencePerson",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "coverLetter": {
+      "Field": "coverLetter",
+      "Type": "text",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -568,9 +800,25 @@
       "Default": null,
       "Extra": ""
     },
+    "nameFa": {
+      "Field": "nameFa",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
     "description": {
       "Field": "description",
-      "Type": "varchar(10000)",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "descriptionFa": {
+      "Field": "descriptionFa",
+      "Type": "text",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -610,6 +858,14 @@
       "Default": null,
       "Extra": ""
     },
+    "firstnameFa": {
+      "Field": "firstnameFa",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
     "lastname": {
       "Field": "lastname",
       "Type": "varchar(45)",
@@ -618,10 +874,58 @@
       "Default": null,
       "Extra": ""
     },
+    "lastnameFa": {
+      "Field": "lastnameFa",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
     "password": {
       "Field": "password",
       "Type": "varchar(45)",
       "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "phone": {
+      "Field": "phone",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "whatsappNumber": {
+      "Field": "whatsappNumber",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "country": {
+      "Field": "country",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "city": {
+      "Field": "city",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "profilePhotoLink": {
+      "Field": "profilePhotoLink",
+      "Type": "varchar(1000)",
+      "Null": "YES",
       "Key": "",
       "Default": null,
       "Extra": ""
