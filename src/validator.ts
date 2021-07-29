@@ -6,7 +6,7 @@ interface IdataPatternItem {
   isOptional?: boolean;
 }
 
-export const isValid = ({ data, tableSchema, checkNulls }) => {
+export const isValid = ({ data, tableSchema, isUpdating }) => {
   let message = "";
   let validity = Object.keys(data).every((key) => {
     if (tableSchema[key] === undefined) {
@@ -16,7 +16,7 @@ export const isValid = ({ data, tableSchema, checkNulls }) => {
     const [dataVildity, validationMessage] = isDataItemValid(
       data[key],
       tableSchema[key],
-      checkNulls
+      isUpdating
     );
 
     if (!dataVildity) {
@@ -29,14 +29,10 @@ export const isValid = ({ data, tableSchema, checkNulls }) => {
   return [validity, message];
 };
 
-export const isDataItemValid = (
-  data,
-  columnSchema,
-  isCheckingNotNulls
-): [boolean, string] => {
+const isDataItemValid = (data, columnSchema, isUpdating): [boolean, string] => {
   //check not null
   if (columnSchema.Null === "NO") {
-    if (isCheckingNotNulls === true) {
+    if (isUpdating === false) {
       if (data === undefined || data === null || data === "") {
         return [false, `${columnSchema.Field} must not be empty.`];
       }
@@ -89,6 +85,12 @@ export const isDataItemValid = (
 
   //check the rest of things
   switch (true) {
+    case type.includes("text"):
+      return [
+        typeof data === "string",
+        `${columnSchema.Field} must be a string.`,
+      ];
+      break;
     case type.includes("date"):
       return [validator.isDate(data), `${columnSchema.Field} must be a date.`];
       break;
@@ -113,47 +115,3 @@ export const isDataItemValid = (
   }
   return [false, "Something went wrong in the validation!"];
 };
-
-// export const isAllValidOld = (dataPatternArray: IdataPatternItem[]) => {
-//   return dataPatternArray.every((dataPatternItem) => isValid(dataPatternItem));
-// };
-
-// export const isValidOld = ({
-//   data,
-//   dataType,
-//   isOptional,
-// }: IdataPatternItem) => {
-//   if (
-//     !isOptional &&
-//     (data === undefined || data === null || data === "" || data.length === 0)
-//   ) {
-//     return false;
-//   }
-//   switch (dataType) {
-//     case "string":
-//       return typeof data === "string";
-//     case "email":
-//       console.log(validator.isEmail(data));
-//       return validator.isEmail(data);
-//     case "alpha":
-//       console.log(validator.isAlpha(data));
-//       return validator.isAlpha(data);
-//     case "alphanumeric":
-//       console.log(validator.isAlphanumeric(data));
-//       return validator.isAlphanumeric(data);
-//     case "numeric":
-//       console.log(validator.isNumeric(data));
-//       return validator.isNumeric(data);
-//     case "date":
-//       console.log(validator.isDate(data));
-//       return validator.isDate(data);
-//     case "decimal":
-//       console.log(validator.isDecimal(data));
-//       return validator.isDecimal(data);
-//     case "int":
-//       console.log(validator.isInt(data));
-//       return validator.isInt(data);
-//     default:
-//       return false;
-//   }
-// };
