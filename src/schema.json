@@ -17,6 +17,128 @@
       "Extra": ""
     }
   },
+  "changerequest": {
+    "changeRequestId": {
+      "Field": "changeRequestId",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "table": {
+      "Field": "table",
+      "Type": "varchar(200)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "pk": {
+      "Field": "pk",
+      "Type": "varchar(200)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "changeData": {
+      "Field": "changeData",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "requestorUserId": {
+      "Field": "requestorUserId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "requestorTeacherId": {
+      "Field": "requestorTeacherId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "requestorPayerId": {
+      "Field": "requestorPayerId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "requestorStudentId": {
+      "Field": "requestorStudentId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "dataOfCreation": {
+      "Field": "dataOfCreation",
+      "Type": "date",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "timeOfCreation": {
+      "Field": "timeOfCreation",
+      "Type": "time",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "reviewerAdminId": {
+      "Field": "reviewerAdminId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "decision": {
+      "Field": "decision",
+      "Type": "varchar(45)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "dateOfDecision": {
+      "Field": "dateOfDecision",
+      "Type": "date",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "timeOfDecision": {
+      "Field": "timeOfDecision",
+      "Type": "time",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "notes": {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
   "classes": {
     "classId": {
       "Field": "classId",
