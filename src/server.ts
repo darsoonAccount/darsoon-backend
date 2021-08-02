@@ -6,11 +6,17 @@ import { getOneUser, getOneProfile, getOneEntitiy } from "./handlers/getOne";
 import { deleteUser, deleteProfile, deleteEntitiy } from "./handlers/deleteOne";
 import { addUser, addProfile, addEntity } from "./handlers/addOne";
 import { updateUser, updateProfile, updateEntity } from "./handlers/updateOne";
+import { getUserByEmail } from "./handlers/customeHandlers/getUserByEmail";
 
-import { showSchema } from "./handlers/showSchema";
+import { showSchema } from "./handlers/customeHandlers/showSchema";
 
 const morgan = require("morgan");
 const cors = require("cors");
+
+const passport = require("passport");
+const { initPassport } = require("./passportConfig");
+
+initPassport(passport, getUserByEmail);
 
 const app = express();
 app.use(cors());
@@ -19,7 +25,6 @@ app.use(morgan("tiny"));
 
 // app.use(bodyParser.json());
 app.use(express.json());
-
 //requests for statics files will go to into the public folder.
 // app.use(express.static("public"));
 
@@ -38,6 +43,18 @@ app
   .use(express.static("./server/assets"))
   .use(express.urlencoded({ extended: false }))
   .use("/", express.static(__dirname + "/"));
+
+//authentication
+app.use(passport.initialize());
+
+//login endpoint
+app.post(
+  "/api/login",
+  passport.authenticate("local", { session: false }),
+  (req, res) => {
+    res.status(200).json({ status: 200, message: "authenticated!!!" });
+  }
+);
 
 // endpoints -------------------------
 

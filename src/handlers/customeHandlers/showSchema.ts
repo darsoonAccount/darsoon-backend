@@ -1,4 +1,4 @@
-import { connectToDB } from "../dbConnector";
+import { connectToDB } from "../../dbConnector";
 
 export const showSchema = async (req, res) => {
   try {
