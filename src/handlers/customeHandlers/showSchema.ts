@@ -7,8 +7,6 @@ export const showSchema = async (req, res) => {
     let schemaArr = await Promise.all(
       tables.map(async (table) => {
         let columns = await getColumnsOf(table);
-        console.log(columns);
-        let entity = table.slice(0, -1);
         return await [table, columns];
       })
     );
@@ -37,7 +35,7 @@ const getTablesFromDB = async () => {
   }
 };
 
-const getColumnsOf = async (table) => {
+export const getColumnsOf = async (table) => {
   const con = await connectToDB();
   try {
     const sql = `show columns FROM ${table}`;
