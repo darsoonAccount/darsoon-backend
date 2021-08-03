@@ -1,12 +1,17 @@
 import { connectToDB } from "../dbConnector";
 import schema from "../schema.json";
 import tables from "../tables.json";
+import { getColumnsOf } from "./customeHandlers/showSchema";
 
 //📄
 //users getOne handler -------------------------------------------------------------------------
 export const getOneUser = async (req, res) => {
   const { username } = req.params;
-  const sql = `SELECT * FROM users WHERE users.username = '${username}'`;
+  const usersColumns: any = Object.keys(await getColumnsOf("users"));
+  const allColumnsExceptPassword = usersColumns.filter(
+    (column) => !column.includes("password")
+  );
+  const sql = `SELECT ${allColumnsExceptPassword} FROM users WHERE users.username = '${username}'`;
   await getOneAndSend({ req, res, sql });
 };
 
@@ -27,7 +32,7 @@ export const getOneProfile = async (req, res) => {
 //entities getOne handler -------------------------------------------------------------------------
 export const getOneEntitiy = async (req, res) => {
   const { entities, id } = req.params;
-  if (!Object.keys(schema).includes(entities)) {
+  if (!Object.keys(schema).includes(entities) || entities === "users") {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
