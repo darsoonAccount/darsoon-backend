@@ -10,12 +10,7 @@ export const initPassport = (passport, getUserByEmail) => {
           message: "There is no user with this email.",
         });
       }
-      const hashed = await bcrypt(user.password, 10);
-      //secend part of if condtion (after ||) should be removed
-      if (
-        (await bcrypt.compare(password, user.password)) ||
-        (await bcrypt.compare(password, hashed))
-      ) {
+      if (await bcrypt.compare(password, user.password)) {
         return done(null, user, { message: "success" });
       } else {
         return done(null, false, { message: "Password is not correct." });
