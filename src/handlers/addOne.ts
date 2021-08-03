@@ -3,12 +3,15 @@ import schema from "../schema.json";
 import tables from "../tables.json";
 import { isValid } from "../validator";
 import { genPK } from "../utils";
+import bcrypt from "bcrypt";
 
 //➕📄
 //users add handler -------------------------------------------------------------------------
 export const addUser = async (req, res) => {
   const { username } = req.params;
-  const data = { ...req.body, username };
+  const { password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const data = { ...req.body, username, password: hashedPassword };
   const tableSchema = schema.users;
   await ValidateAddAndSend({
     req,
@@ -54,7 +57,12 @@ export const addEntity = async (req, res) => {
     });
     return;
   }
-  const data = req.body;
+  let data = req.body;
+  const { password } = req.body;
+  if (password) {
+    const hashedPassword = await bcrypt(password, 10);
+    data = { ...req.body, password: hashedPassword };
+  }
   const tableSchema = schema[entities];
   await ValidateAddAndSend({
     req,

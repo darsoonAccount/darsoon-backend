@@ -3,12 +3,18 @@ import { isValid } from "../validator";
 import { genPK, findUserId, findPk } from "../utils";
 import schema from "../schema.json";
 import tables from "../tables.json";
+import bcrypt from "bcrypt";
 
 // 📝
 //users  update handler -------------------------------------------------------------------------
 export const updateUser = async (req, res) => {
   const { username } = req.params;
-  const data = req.body;
+  let data = req.body;
+  const { password } = req.body;
+  if (password) {
+    const hashedPassword = await bcrypt(password, 10);
+    data = { ...req.body, password: hashedPassword };
+  }
   const tableSchema = schema.users;
   const entity = tables.users.entity;
 
@@ -62,7 +68,12 @@ export const updateProfile = async (req, res) => {
 //entities update handler -------------------------------------------------------------------------
 export const updateEntity = async (req, res) => {
   const { id, entities } = req.params;
-  const data = req.body;
+  let data = req.body;
+  const { password } = req.body;
+  if (password) {
+    const hashedPassword = await bcrypt(password, 10);
+    data = { ...req.body, password: hashedPassword };
+  }
   const tableSchema = schema[entities];
 
   await ValidateUpdateAndSend({
