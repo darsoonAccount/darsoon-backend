@@ -1,4 +1,4 @@
-import { connectToDB } from "./dbConnector";
+import { connectToDB } from "./db/dbConnector";
 
 export const genPK = (str: string): string => {
   const d = new Date("January 01, 2020 00:00:00 GMT+00:00");

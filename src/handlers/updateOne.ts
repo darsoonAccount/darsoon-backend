@@ -1,8 +1,8 @@
-import { connectToDB } from "../dbConnector";
+import { connectToDB } from "../db/dbConnector";
 import { isValid } from "../validator";
 import { genPK, findUserId, findPk } from "../utils";
-import schema from "../schema.json";
-import tables from "../tables.json";
+import schema from "../db/schema.json";
+import tables from "../db/tables.json";
 import bcrypt from "bcrypt";
 
 // 📝

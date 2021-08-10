@@ -1,5 +1,5 @@
 import { getOneAndSend } from "../getOne";
-import { connectToDB } from "../../dbConnector";
+import { connectToDB } from "../../db/dbConnector";
 
 export const getUserByEmail = async (email) => {
 

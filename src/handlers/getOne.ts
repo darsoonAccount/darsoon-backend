@@ -1,6 +1,6 @@
-import { connectToDB } from "../dbConnector";
-import schema from "../schema.json";
-import tables from "../tables.json";
+import { connectToDB } from "../db/dbConnector";
+import schema from "../db/schema.json";
+import tables from "../db/tables.json";
 import { getColumnsOf } from "./customeHandlers/showSchema";
 
 //📄
