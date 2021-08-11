@@ -20,7 +20,7 @@
   "changerequest": {
     "changeRequestId": {
       "Field": "changeRequestId",
-      "Type": "int",
+      "Type": "int(11)",
       "Null": "NO",
       "Key": "PRI",
       "Default": null,
@@ -198,7 +198,7 @@
     },
     "isIntroduction": {
       "Field": "isIntroduction",
-      "Type": "tinyint",
+      "Type": "tinyint(4)",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -564,7 +564,7 @@
     },
     "extraFamilyMemberCharge": {
       "Field": "extraFamilyMemberCharge",
-      "Type": "int",
+      "Type": "int(11)",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -572,7 +572,7 @@
     },
     "isGroupClass": {
       "Field": "isGroupClass",
-      "Type": "tinyint",
+      "Type": "tinyint(4)",
       "Null": "NO",
       "Key": "",
       "Default": null,
@@ -580,7 +580,7 @@
     },
     "maxNumberOfStudents": {
       "Field": "maxNumberOfStudents",
-      "Type": "int",
+      "Type": "int(11)",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -596,7 +596,7 @@
     },
     "sessionDuration": {
       "Field": "sessionDuration",
-      "Type": "int",
+      "Type": "int(11)",
       "Null": "NO",
       "Key": "",
       "Default": null,
@@ -604,8 +604,122 @@
     },
     "numberOfSession": {
       "Field": "numberOfSession",
-      "Type": "int",
+      "Type": "int(11)",
       "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    }
+  },
+  "promotions": {
+    "promotionId": {
+      "Field": "promotionId",
+      "Type": "varchar(25)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": null,
+      "Extra": ""
+    },
+    "name": {
+      "Field": "name",
+      "Type": "varchar(200)",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "discription": {
+      "Field": "discription",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "adminId": {
+      "Field": "adminId",
+      "Type": "varchar(25)",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "isActive": {
+      "Field": "isActive",
+      "Type": "tinyint(4)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "promotionTotalLimit": {
+      "Field": "promotionTotalLimit",
+      "Type": "decimal(6,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "startDate": {
+      "Field": "startDate",
+      "Type": "date",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "endDate": {
+      "Field": "endDate",
+      "Type": "date",
+      "Null": "NO",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "payerCondition": {
+      "Field": "payerCondition",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "studentCondition": {
+      "Field": "studentCondition",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "productCondition": {
+      "Field": "productCondition",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "discountPercentage": {
+      "Field": "discountPercentage",
+      "Type": "int(3)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "discountFigure": {
+      "Field": "discountFigure",
+      "Type": "decimal(6,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": null,
+      "Extra": ""
+    },
+    "maxDiscountAllowedPerPurchase": {
+      "Field": "maxDiscountAllowedPerPurchase",
+      "Type": "decimal(6,2)",
+      "Null": "YES",
       "Key": "",
       "Default": null,
       "Extra": ""
@@ -786,7 +900,7 @@
     },
     "englishFluency": {
       "Field": "englishFluency",
-      "Type": "int",
+      "Type": "int(11)",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -866,7 +980,7 @@
     },
     "classDuration": {
       "Field": "classDuration",
-      "Type": "int",
+      "Type": "int(11)",
       "Null": "YES",
       "Key": "",
       "Default": null,
@@ -1006,7 +1120,7 @@
     },
     "password": {
       "Field": "password",
-      "Type": "varchar(45)",
+      "Type": "varchar(100)",
       "Null": "NO",
       "Key": "",
       "Default": null,
@@ -1074,6 +1188,14 @@
       "Field": "classId",
       "Type": "varchar(25)",
       "Null": "NO",
+      "Key": "MUL",
+      "Default": null,
+      "Extra": ""
+    },
+    "promotionId": {
+      "Field": "promotionId",
+      "Type": "varchar(25)",
+      "Null": "YES",
       "Key": "MUL",
       "Default": null,
       "Extra": ""
