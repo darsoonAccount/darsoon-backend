@@ -37,17 +37,3 @@ export const findPk = async ({ username, table, entity }) => {
     return null;
   }
 };
-
-// export const isDuplicate = async ({ sql }) => {
-//   const con = await connectToDB();
-//   try {
-//     const [rows, fields] = await con.execute(sql);
-//     if (rows.length === 1) {
-//       return [null, true];
-//     } else {
-//       return [null, false];
-//     }
-//   } catch (error) {
-//     return [error, null];
-//   }
-// };

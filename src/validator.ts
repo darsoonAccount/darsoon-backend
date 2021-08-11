@@ -55,6 +55,8 @@ const isDataItemValid = (data, columnSchema, isUpdating): [boolean, string] => {
       return [false, `${columnSchema.Field} must be a string.`];
     }
     if (data.length > length) {
+      console.log(data);
+      
       return [
         false,
         `${columnSchema.Field} must not be longer than ${length} character.`,
