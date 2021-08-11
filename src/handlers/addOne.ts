@@ -6,6 +6,8 @@ import { genPK } from "../utils";
 import bcrypt from "bcrypt";
 
 //➕📄
+//register User handler ---------------------------------------------------------------------
+
 //users add handler -------------------------------------------------------------------------
 export const addUser = async (req, res) => {
   const { username } = req.params;

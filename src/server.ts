@@ -1,60 +1,62 @@
 "use strict";
-import express, { Request, Response, NextFunction } from "express";
+const morgan = require("morgan");
+const express = require("express");
+import { Request, Response, NextFunction } from "express";
+const cors = require("cors");
+const passport = require("passport");
+const bcrypt = require("bcrypt");
 
+import {
+  loginUser,
+  registerUser,
+} from "./handlers/customeHandlers/authHandlers";
 import { getUsers, getProfiles, getEntities } from "./handlers/getAll";
 import { getOneUser, getOneProfile, getOneEntitiy } from "./handlers/getOne";
 import { deleteUser, deleteProfile, deleteEntitiy } from "./handlers/deleteOne";
 import { addUser, addProfile, addEntity } from "./handlers/addOne";
 import { updateUser, updateProfile, updateEntity } from "./handlers/updateOne";
-import { getUserByEmail } from "./handlers/customeHandlers/getUserByEmail";
-
 import { showSchema } from "./handlers/customeHandlers/showSchema";
 
-const morgan = require("morgan");
-const cors = require("cors");
-
-const passport = require("passport");
-const { initPassport } = require("./passportConfig");
-
-initPassport(passport, getUserByEmail);
 
 const app = express();
-app.use(cors());
-//this will give you HTTP requests log in console:
-app.use(morgan("tiny"));
-
-// app.use(bodyParser.json());
+app.use(cors()); //alows HTTP requests from browsers (a whitelist of domais is more secure).
+app.use(morgan("tiny")); //this will give you HTTP requests log in console:
 app.use(express.json());
-//requests for statics files will go to into the public folder.
-// app.use(express.static("public"));
+app.use(express.urlencoded({ extended: false }));
+// app.use(express.static("public")); //requests for statics files will go to into the public folder.
 
-app
-  .use(function (req: Request, res: Response, next: NextFunction) {
-    res.header(
-      "Access-Control-Allow-Methods",
-      "OPTIONS, HEAD, GET, PUT, POST, DELETE"
-    );
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-  })
-  .use(express.static("./server/assets"))
-  .use(express.urlencoded({ extended: false }))
-  .use("/", express.static(__dirname + "/"));
+app.use(function (req: Request, res: Response, next: NextFunction) {
+  res.header(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, HEAD, GET, PUT, POST, DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+app.use(express.static("./server/assets"));
+app.use("/", express.static(__dirname + "/"));
 
 //authentication
+
+// const LocalStrategy = require("passport-local").Strategy; // no longer using local strategy.
+const { jwtStrategy } = require("./passport/passportConfigJwt");
+passport.use(jwtStrategy);
 app.use(passport.initialize());
 
-//login endpoint
-app.post(
-  "/api/login",
-  passport.authenticate("local", { session: false }),
-  (req, res) => {
-    res.status(200).json({ status: 200, message: "authenticated!!!" });
-  }
-);
+// app.use(require("./routes"));
+
+//login and register endpoints
+
+const authIt = passport.authenticate("jwt", { session: false });
+app.post("/api/register", registerUser);
+app.post("/api/login", loginUser);
+
+app.get("/api/protected", authIt, (req, res) => {
+  res.status(200).json({ message: "Yohoo, you are authenticated!" });
+}); //for testing only. should be removed later %%%%%%%%%%
 
 // endpoints -------------------------
 
@@ -70,7 +72,7 @@ app.get("/api/schema", showSchema);
 app.get("/api/users", getUsers);
 app.get("/api/users/:username", getOneUser);
 app.delete("/api/users/:username/delete", deleteUser);
-app.post("/api/users/:username/add", addUser);
+// app.post("/api/users/:username/add", addUser); //register endpoint instead should be used.
 app.patch("/api/users/:username/update", updateUser);
 
 //user profiles -- these endpoits are for teachers, payers, students and admins.
