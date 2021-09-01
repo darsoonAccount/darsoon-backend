@@ -1,35 +1,41 @@
 const bcrypt = require("bcrypt");
 import { issueJWT } from "../../passport/issueJwt";
-import { getUserByEmail } from "./getUserBy";
+import { getPassword, getUserByEmail } from "./getUserBy";
 import schema from "../../db/schema.json";
 import { isValid } from "../../validator";
 import { genPK } from "../../utils";
 import { connectToDB } from "../../db/dbConnector";
 
+//---------------------------------------------------------------------------------
+
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   const user = await getUserByEmail(email);
-
   if (!user) {
     res.status(400).json({ status: 400, message: "No user with this email" });
   } else {
-    if (!(await bcrypt.compare(password, user.password))) {
+    const hashedPasswordInDB = await getPassword(user.userId);
+    if (!(await bcrypt.compare(password, hashedPasswordInDB))) {
       res.status(401).json({ status: 401, message: "wrong password" });
     } else {
       const { token, expiresIn } = issueJWT(user.userId);
       res.status(200).json({
         status: 200,
         message: "logged in successfully",
-        user,
-        token,
-        expiresIn,
+        data: {
+          user,
+          token,
+          expiresIn,
+        },
       });
     }
   }
 };
 
+//---------------------------------------------------------------------------------------
+
 export const registerUser = async (req, res) => {
-  const { password } = req.body;
+  const { email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const data = { ...req.body, password: hashedPassword };
   const tableSchema = schema.users;
@@ -59,9 +65,12 @@ export const registerUser = async (req, res) => {
     const [insertResult, fields] = await con.execute(sql);
     if (insertResult.affectedRows === 1) {
       const { token, expiresIn } = issueJWT(pk);
-      res
-        .status(200)
-        .json({ status: 200, message: "succefully added", token, expiresIn });
+      const user = await getUserByEmail(email);
+      res.status(200).json({
+        status: 200,
+        message: "succefully added",
+        data: { user, token, expiresIn },
+      });
       return;
     }
   } catch (err) {
