@@ -49,3 +49,16 @@ export const getColumnsOf = async (table) => {
     throw err;
   }
 };
+
+export const getColumnNamesOf = async (table) => {
+  const con = await connectToDB();
+  try {
+    const sql = `show columns FROM ${table}`;
+    const result = await con.execute(sql);
+    const ColumnNames = result[0].map((col) => col.Field);
+
+    return ColumnNames;
+  } catch (err) {
+    throw err;
+  }
+};
