@@ -10,9 +10,7 @@ export const genPK = (str: string): string => {
 export const findUserId = async (username) => {
   const con = await connectToDB();
   try {
-    const [rows, fields] = await con.execute(
-      `SELECT * FROM users WHERE users.username = '${username}'`
-    );
+    const [rows, fields] = await con.execute(`SELECT * FROM users WHERE users.username = '${username}'`);
     console.log(rows);
     if (rows.length === 0) {
       return null;
@@ -26,9 +24,7 @@ export const findUserId = async (username) => {
 export const findPk = async ({ username, table, entity }) => {
   const con = await connectToDB();
   try {
-    const [rows, fields] = await con.execute(
-      `SELECT * FROM ${table} INNER JOIN users ON ${table}.userId = users.userId WHERE users.username = '${username}'`
-    );
+    const [rows, fields] = await con.execute(`SELECT * FROM ${table} INNER JOIN users ON ${table}.userId = users.userId WHERE users.username = '${username}'`);
     if (rows.length === 0) {
       return null;
     }
