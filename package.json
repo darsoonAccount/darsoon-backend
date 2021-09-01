@@ -6,8 +6,10 @@
   "author": "Hamid Keshmiri <78935540+hamidkd@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node build/server.js",
     "buildts": "tsc -p tsconfig.json",
+    "build": "tsc",
+    "postinstall": "npm run build",
     "dev": "nodemon src/server.ts"
   },
   "dependencies": {
