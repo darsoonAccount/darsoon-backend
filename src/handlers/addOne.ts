@@ -52,6 +52,7 @@ export const addProfile = async (req, res) => {
 // entities add handler -------------------------------------------------------------------------
 export const addEntity = async (req, res) => {
   const { entities } = req.params;
+
   if (!Object.keys(schema).includes(entities)) {
     res.status(404).json({
       status: 404,
@@ -88,15 +89,7 @@ interface IvalidateAddAndSend {
   dataPatternArray: any;
 }
 
-export const ValidateAddAndSend = async ({
-  req,
-  res,
-  entity,
-  table,
-  PKprefix,
-  data,
-  tableSchema,
-}) => {
+export const ValidateAddAndSend = async ({ req, res, entity, table, PKprefix, data, tableSchema }) => {
   const [isDataValid, validationMessage] = isValid({
     data,
     tableSchema,
@@ -112,15 +105,16 @@ export const ValidateAddAndSend = async ({
     .filter((value) => value !== null)
     .map((value) => `'${value}'`);
   const sql = `INSERT INTO ${table} (${entity}Id ,${keys}) VALUES ('${pk}', ${values})`;
-  await addOneAndSend({ req, res, sql });
+  data = { ...data, [`${entity}Id`]: pk };
+  await addOneAndSend({ req, res, sql, data });
 };
 
-const addOneAndSend = async ({ req, res, sql }) => {
+const addOneAndSend = async ({ req, res, sql, data }) => {
   const con = await connectToDB();
   try {
     const [insertResult, fields] = await con.execute(sql);
     if (insertResult.affectedRows === 1) {
-      res.status(200).json({ status: 200, message: "succefully added" });
+      res.status(200).json({ status: 200, message: "succefully added", data });
       return;
     }
   } catch (err) {
