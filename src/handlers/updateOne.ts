@@ -20,9 +20,7 @@ export const updateUser = async (req, res) => {
 
   const pk = await findUserId(username);
   if (pk === null) {
-    res
-      .status(400)
-      .json({ status: 400, message: "There is no user with this username." });
+    res.status(400).json({ status: 400, message: "There is no user with this username." });
     return;
   }
 
@@ -47,9 +45,7 @@ export const updateProfile = async (req, res) => {
 
   const pk = await findPk({ username, table: typeOfUsers, entity });
   if (pk === null) {
-    res
-      .status(400)
-      .json({ status: 400, message: "There is no user with this username." });
+    res.status(400).json({ status: 400, message: "There is no user with this username." });
     return;
   }
 
@@ -89,16 +85,7 @@ export const updateEntity = async (req, res) => {
 };
 
 // utility functions -------------------------------------------------------------------------
-const ValidateUpdateAndSend = async ({
-  req,
-  res,
-  entity,
-  table,
-  pkprefix,
-  pk,
-  data,
-  tableSchema,
-}) => {
+const ValidateUpdateAndSend = async ({ req, res, entity, table, pkprefix, pk, data, tableSchema }) => {
   const [isDataValid, validationMessage] = isValid({
     data,
     tableSchema,
@@ -115,15 +102,16 @@ const ValidateUpdateAndSend = async ({
     return `${key} = '${data[key]}'`;
   });
   const sql = `UPDATE ${table} SET ${setAssignements} WHERE  ${entity}Id = '${pk}'`;
-  await updateOneAndSend({ req, res, sql });
+  data = { ...data, [`${entity}Id`]: pk };
+  await updateOneAndSend({ req, res, sql, data });
 };
 
-const updateOneAndSend = async ({ req, res, sql }) => {
+const updateOneAndSend = async ({ req, res, sql, data }) => {
   const con = await connectToDB();
   try {
     const [updateResult, fields] = await con.execute(sql);
     if (updateResult.affectedRows === 1) {
-      res.status(200).json({ status: 200, message: "succesfully updated" });
+      res.status(200).json({ status: 200, message: "succesfully updated", data });
       return;
     } else {
       res.status(500).json({ status: 400, message: "bad request" });
