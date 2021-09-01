@@ -58,5 +58,13 @@
   "paymentToTeachrs": {
     "entity": "paymentToTeacher",
     "pkprefix": "pyt"
+  },
+  "teacherApplications": {
+    "entity": "teacherApplication",
+    "pkprefix": "tap"
+  },
+  "promotions": {
+    "entity": "promotion",
+    "pkprefix": "prm"
   }
 }
