@@ -6,17 +6,13 @@ const cors = require("cors");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 
-import {
-  loginUser,
-  registerUser,
-} from "./handlers/customeHandlers/authHandlers";
-import { getUsers, getProfiles, getEntities } from "./handlers/getAll";
-import { getOneUser, getOneProfile, getOneEntitiy } from "./handlers/getOne";
+import { loginUser, registerUser } from "./handlers/customeHandlers/authHandlers";
+import { getUsers, getProfiles, getEntities, getJTeacherApplications, getByQuery } from "./handlers/getAll";
+import { getOneUser, getOneProfile, getOneEntitiy, getJOneTeacherApplication } from "./handlers/getOne";
 import { deleteUser, deleteProfile, deleteEntitiy } from "./handlers/deleteOne";
 import { addUser, addProfile, addEntity } from "./handlers/addOne";
 import { updateUser, updateProfile, updateEntity } from "./handlers/updateOne";
 import { showSchema } from "./handlers/customeHandlers/showSchema";
-
 
 const app = express();
 app.use(cors()); //alows HTTP requests from browsers (a whitelist of domais is more secure).
@@ -26,14 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(express.static("public")); //requests for statics files will go to into the public folder.
 
 app.use(function (req: Request, res: Response, next: NextFunction) {
-  res.header(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, HEAD, GET, PUT, POST, DELETE"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+  res.header("Access-Control-Allow-Methods", "OPTIONS, HEAD, GET, PUT, POST, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 app.use(express.static("./server/assets"));
@@ -83,9 +73,14 @@ app.delete("/api/p/:typeOfUsers/:username/delete", deleteProfile);
 app.post("/api/p/:typeOfUsers/:username/add", addProfile);
 app.patch("/api/p/:typeOfUsers/:username/update", updateProfile);
 
+//auto joining endpoints (for each foreign key in the result, they append the data related to that foreign key to the result. this append data is in for of an object with the key of that entity)
+app.get("/api/j/teacherApplications/:id", getJOneTeacherApplication);
+app.get("/api/j/teacherApplications", getJTeacherApplications);
+
+app.get("/api/q/", getByQuery);
 //entities -- thses endpoints work for all tables including users, teachers, payers, students and admins.
 // these endpoints work with the Primary Key of each table.
-app.get("/api/:entities", getEntities);
+app.get("/api/:entities", getEntities); //becarefull this endpoint eats all requests like /api/something
 app.get("/api/:entities/:id", getOneEntitiy);
 app.delete("/api/:entities/:id/delete", deleteEntitiy);
 app.post("/api/:entities/add", addEntity);
@@ -96,7 +91,7 @@ app.patch("/api/:entities/:id/update", updateEntity);
 app.get("*", (req, res) => {
   res.status(404).json({
     status: 404,
-    message: "Page Not Found",
+    message: "Not Found!",
   });
 });
 
