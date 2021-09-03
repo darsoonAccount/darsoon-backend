@@ -42,9 +42,13 @@ export const getEntities = async (req, res) => {
 
 //teacherApplications joining getAll handler ------------------------------------------------------------
 export const getJTeacherApplications = async (req, res) => {
-  console.log("here");
-
-  const sql = `SELECT * FROM teacherApplications LEFT JOIN usersView ON usersView.userId = teacherApplications.applicantUserId `;
+  const applicantUserId = req.query.applicantUserId;
+  let sql = "";
+  if (req.query.applicantUserId) {
+    sql = `SELECT * FROM teacherApplications LEFT JOIN usersView ON usersView.userId = teacherApplications.applicantUserId WHERE teacherApplications.applicantUserId = '${applicantUserId}'`;
+  } else {
+    sql = `SELECT * FROM teacherApplications LEFT JOIN usersView ON usersView.userId = teacherApplications.applicantUserId`;
+  }
 
   //getting results and nesting them!
 
@@ -100,7 +104,6 @@ const getAllAndSend = async ({ req, res, sql }) => {
 
 export const getByQuery = async ({ req, res }) => {
   const { sql } = req.query;
-  
 };
 
 const justGetAllAsAaray = async ({ req, res, sql }) => {
