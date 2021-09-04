@@ -7,7 +7,13 @@ import { getColumnNamesOf, getColumnsOf } from "./customeHandlers/showSchema";
 export const getUsers = async (req, res) => {
   const usersColumns: string[] = Object.keys(await getColumnsOf("users"));
   const allColumnsExceptPassword = usersColumns.filter((column) => !column.includes("password"));
-  const sql = `SELECT ${allColumnsExceptPassword} FROM users`;
+  const initialSql = `SELECT ${allColumnsExceptPassword} FROM users`;
+
+  const [sql, errorMessage] = addSqlConditions(initialSql, 'users', req.query); 
+  if (errorMessage) {
+    res.status(400).json({ message: errorMessage });
+    return;
+  }
   await getAllAndSend({ sql, req, res });
 };
 
@@ -30,13 +36,22 @@ export const getProfiles = async (req, res) => {
 export const getEntities = async (req, res) => {
   const { entities } = req.params;
   if (!Object.keys(schema).includes(entities) || entities === "users") {
+    //dont send user through this.
     res.status(404).json({
       status: 404,
-      message: "Page Not Found",
+      message: "No table with this name.",
     });
     return;
   }
-  const sql = `SELECT * FROM ${entities}`;
+
+  let initialSql = `SELECT * FROM ${entities}`;
+
+  const [sql, errorMessage] = addSqlConditions(initialSql, entities, req.query);
+  if (errorMessage) {
+    res.status(400).json({ message: errorMessage });
+    return;
+  }
+  
   await getAllAndSend({ sql, req, res });
 };
 
@@ -114,4 +129,31 @@ const justGetAllAsAaray = async ({ req, res, sql }) => {
   // } catch (err) {
   //   return null;
   // }
+};
+
+const addSqlConditions = (sql, entities, reqQuery) => {
+  
+
+
+  //adding query conditons if there is any eligible query condition
+  if (reqQuery) {
+    //chcek if the query string is all eligible, otherwise return 400.
+    const queryKeys = Object.keys(reqQuery);
+    const isQueryEligible = queryKeys.every((queryKey) => {
+      const columnNamesArray = Object.keys(schema[entities]);
+      return columnNamesArray.includes(queryKey);
+    });
+    if (!isQueryEligible) {
+      return [null, "bad query string"];
+    } else {
+      let sqlWhereCondition = " WHERE ";
+      queryKeys.forEach((queryKey) => {
+        sqlWhereCondition = sqlWhereCondition + `${queryKey}='${reqQuery[queryKey]}' AND `;
+      });
+      sqlWhereCondition = sqlWhereCondition.slice(0, -4); //remove the last "AND ".
+      sql = sql + sqlWhereCondition;
+    }
+  }
+
+  return [sql, null];
 };
