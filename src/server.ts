@@ -12,7 +12,7 @@ import { getOneUser, getOneProfile, getOneEntitiy, getJOneTeacherApplication } f
 import { deleteUser, deleteProfile, deleteEntitiy } from "./handlers/deleteOne";
 import { addUser, addProfile, addEntity } from "./handlers/addOne";
 import { updateUser, updateProfile, updateEntity } from "./handlers/updateOne";
-import { showSchema } from "./handlers/customeHandlers/showSchema";
+import { updateSchema } from "./handlers/customeHandlers/showSchema";
 
 const app = express();
 app.use(cors()); //alows HTTP requests from browsers (a whitelist of domais is more secure).
@@ -26,8 +26,8 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-app.use(express.static("./server/assets"));
-app.use("/", express.static(__dirname + "/"));
+// app.use(express.static("./server/assets"));
+// app.use("/", express.static(__dirname + "/"));
 
 //authentication
 
@@ -56,7 +56,7 @@ app.get("/", (req, res) => {
 });
 
 //show data schema
-app.get("/api/schema", showSchema);
+app.get("/api/schema", updateSchema);
 
 //users -- these endpoints are for users table. these endpoint work with usename.
 app.get("/api/users", getUsers);

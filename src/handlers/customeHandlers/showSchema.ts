@@ -1,18 +1,27 @@
-import { connectToDB } from "../../db/dbConnector";
+import { connectToDB, updateSchemaFile } from "../../db/dbConnector";
+const fs = require("fs");
 
 export const showSchema = async (req, res) => {
-  const [schema, errorMessage] = await createSchema();
+  try {
 
-  if (errorMessage) {
-    res.status(500).json({ status: 500, message: errorMessage });
-  } else {
+    const schema  = await getScehma();
+    
     res.status(200).json(schema);
+  } catch (error) {
+    res.status(500).json({ status: 500, message: error.message });
+  }
+}
+
+export const updateSchema = async (req, res) => {
+  try {
+    const schema = await updateSchemaFile();
+    res.status(200).json(schema);
+  } catch (error) {
+    res.status(500).json({ status: 500, message: error.message });
   }
 };
 
-
-
-export const createSchema = async () => {
+export const getScehma = async () => {
   try {
     let tables = await getTablesFromDB();
 
@@ -28,9 +37,9 @@ export const createSchema = async () => {
       const [table, columns] = item;
       schema[table] = columns;
     });
-    return [schema, null];
+    return schema;
   } catch (err) {
-    return [null, err.message];
+    throw err;
   }
 };
 
