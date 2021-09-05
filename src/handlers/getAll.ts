@@ -3,13 +3,13 @@ import schema from "../db/schema.json";
 import { getColumnNamesOf, getColumnsOf } from "./customeHandlers/showSchema";
 
 //📄📄📄
-//users getAll handler -------------------------------------------------------------------------
+//user getAll handler -------------------------------------------------------------------------
 export const getUsers = async (req, res) => {
-  const usersColumns: string[] = Object.keys(await getColumnsOf("users"));
-  const allColumnsExceptPassword = usersColumns.filter((column) => !column.includes("password"));
-  const initialSql = `SELECT ${allColumnsExceptPassword} FROM users`;
+  const userColumns: string[] = Object.keys(await getColumnsOf("user"));
+  const allColumnsExceptPassword = userColumns.filter((column) => !column.includes("password"));
+  const initialSql = `SELECT ${allColumnsExceptPassword} FROM user`;
 
-  const [sql, errorMessage] = addSqlConditions(initialSql, 'users', req.query); 
+  const [sql, errorMessage] = addSqlConditions(initialSql, "user", req.query);
   if (errorMessage) {
     res.status(400).json({ message: errorMessage });
     return;
@@ -19,8 +19,8 @@ export const getUsers = async (req, res) => {
 
 //profiles getAll handler -------------------------------------------------------------------------------
 export const getProfiles = async (req, res) => {
-  const { typeOfUsers } = req.params;
-  if (!["teachers", "admins", "payers", "students"].includes(typeOfUsers)) {
+  const { typeOfUser } = req.params;
+  if (!["teacher", "admin", "payer", "student"].includes(typeOfUser)) {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
@@ -28,14 +28,14 @@ export const getProfiles = async (req, res) => {
     return;
   }
 
-  const sql = `SELECT * FROM ${typeOfUsers} INNER JOIN usersView ON ${typeOfUsers}.userId = usersView.userId`;
+  const sql = `SELECT * FROM ${typeOfUser} INNER JOIN userView ON ${typeOfUser}.userId = userView.userId`;
   await getAllAndSend({ sql, req, res });
 };
 
-//entities getAll handler ------------------------------------------------------------------------------
+//entity getAll handler ------------------------------------------------------------------------------
 export const getEntities = async (req, res) => {
-  const { entities } = req.params;
-  if (!Object.keys(schema).includes(entities) || entities === "users") {
+  const { entity } = req.params;
+  if (!Object.keys(schema).includes(entity) || entity === "user") {
     //dont send user through this.
     res.status(404).json({
       status: 404,
@@ -44,14 +44,14 @@ export const getEntities = async (req, res) => {
     return;
   }
 
-  let initialSql = `SELECT * FROM ${entities}`;
+  let initialSql = `SELECT * FROM ${entity}`;
 
-  const [sql, errorMessage] = addSqlConditions(initialSql, entities, req.query);
+  const [sql, errorMessage] = addSqlConditions(initialSql, entity, req.query);
   if (errorMessage) {
     res.status(400).json({ message: errorMessage });
     return;
   }
-  
+
   await getAllAndSend({ sql, req, res });
 };
 
@@ -60,18 +60,18 @@ export const getJTeacherApplications = async (req, res) => {
   const applicantUserId = req.query.applicantUserId;
   let sql = "";
   if (req.query.applicantUserId) {
-    sql = `SELECT * FROM teacherApplications LEFT JOIN usersView ON usersView.userId = teacherApplications.applicantUserId WHERE teacherApplications.applicantUserId = '${applicantUserId}'`;
+    sql = `SELECT * FROM teacherApplication LEFT JOIN userView ON userView.userId = teacherApplication.applicantUserId WHERE teacherApplication.applicantUserId = '${applicantUserId}'`;
   } else {
-    sql = `SELECT * FROM teacherApplications LEFT JOIN usersView ON usersView.userId = teacherApplications.applicantUserId`;
+    sql = `SELECT * FROM teacherApplication LEFT JOIN userView ON userView.userId = teacherApplication.applicantUserId`;
   }
 
   //getting results and nesting them!
 
-  let teacherApplicationsColumns = await getColumnNamesOf("teacherApplications");
-  teacherApplicationsColumns = teacherApplicationsColumns.map((col) => "teacherApplications_" + col);
-  let usersColumns = await getColumnNamesOf("usersView");
-  usersColumns = usersColumns.map((col) => "users_" + col);
-  let allColumns = teacherApplicationsColumns.concat(usersColumns);
+  let teacherApplicationColumns = await getColumnNamesOf("teacherApplication");
+  teacherApplicationColumns = teacherApplicationColumns.map((col) => "teacherApplication_" + col);
+  let userColumns = await getColumnNamesOf("userView");
+  userColumns = userColumns.map((col) => "user_" + col);
+  let allColumns = teacherApplicationColumns.concat(userColumns);
 
   const con = await connectToDB();
   try {
@@ -91,7 +91,7 @@ export const getJTeacherApplications = async (req, res) => {
       };
       Object.keys(flatResult).map((key) => {
         const [table, column] = key.split("_");
-        if (table === "teacherApplications") {
+        if (table === "teacherApplication") {
           nestedResult[column] = flatResult[key];
         } else {
           nestedResult["applicantUser"][column] = flatResult[key];
@@ -131,16 +131,13 @@ const justGetAllAsAaray = async ({ req, res, sql }) => {
   // }
 };
 
-const addSqlConditions = (sql, entities, reqQuery) => {
-  
-
-
+const addSqlConditions = (sql, entity, reqQuery) => {
   //adding query conditons if there is any eligible query condition
   if (reqQuery) {
     //chcek if the query string is all eligible, otherwise return 400.
     const queryKeys = Object.keys(reqQuery);
     const isQueryEligible = queryKeys.every((queryKey) => {
-      const columnNamesArray = Object.keys(schema[entities]);
+      const columnNamesArray = Object.keys(schema[entity]);
       return columnNamesArray.includes(queryKey);
     });
     if (!isQueryEligible) {

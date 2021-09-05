@@ -6,7 +6,7 @@ import tables from "../db/tables.json";
 import bcrypt from "bcrypt";
 
 // 📝
-//users  update handler -------------------------------------------------------------------------
+//user  update handler -------------------------------------------------------------------------
 export const updateUser = async (req, res) => {
   const { username } = req.params;
   let data = req.body;
@@ -15,8 +15,8 @@ export const updateUser = async (req, res) => {
     const hashedPassword = await bcrypt(password, 10);
     data = { ...req.body, password: hashedPassword };
   }
-  const tableSchema = schema.users;
-  const entity = tables.users.entity;
+  const tableSchema = schema.user;
+  const entity = tables.user.entity;
 
   const pk = await findUserId(username);
   if (pk === null) {
@@ -27,9 +27,9 @@ export const updateUser = async (req, res) => {
   await ValidateUpdateAndSend({
     req,
     res,
-    entity: tables.users.entity,
-    table: "users",
-    pkprefix: tables.users.pkprefix,
+    entity: tables.user.entity,
+    table: "user",
+    pkprefix: tables.user.pkprefix,
     pk,
     data,
     tableSchema,
@@ -38,12 +38,12 @@ export const updateUser = async (req, res) => {
 
 //profiles update handler -------------------------------------------------------------------------
 export const updateProfile = async (req, res) => {
-  const { username, typeOfUsers } = req.params;
+  const { username, typeOfUser } = req.params;
   const data = req.body;
-  const tableSchema = schema[typeOfUsers];
-  const entity = tables[typeOfUsers].entity;
+  const tableSchema = schema[typeOfUser];
+  const entity = tables[typeOfUser].entity;
 
-  const pk = await findPk({ username, table: typeOfUsers, entity });
+  const pk = await findPk({ username, table: typeOfUser, entity });
   if (pk === null) {
     res.status(400).json({ status: 400, message: "There is no user with this username." });
     return;
@@ -53,31 +53,31 @@ export const updateProfile = async (req, res) => {
     req,
     res,
     entity,
-    table: typeOfUsers,
-    pkprefix: tables[typeOfUsers].pkprefix,
+    table: typeOfUser,
+    pkprefix: tables[typeOfUser].pkprefix,
     pk,
     data,
     tableSchema,
   });
 };
 
-//entities update handler -------------------------------------------------------------------------
+//entity update handler -------------------------------------------------------------------------
 export const updateEntity = async (req, res) => {
-  const { id, entities } = req.params;
+  const { id, entity } = req.params;
   let data = req.body;
   const { password } = req.body;
   if (password) {
     const hashedPassword = await bcrypt(password, 10);
     data = { ...req.body, password: hashedPassword };
   }
-  const tableSchema = schema[entities];
+  const tableSchema = schema[entity];
 
   await ValidateUpdateAndSend({
     req,
     res,
-    entity: tables[entities].entity,
-    table: entities,
-    pkprefix: tables[entities].pkprefix,
+    entity: tables[entity].entity,
+    table: entity,
+    pkprefix: tables[entity].pkprefix,
     pk: id,
     data,
     tableSchema,

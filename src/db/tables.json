@@ -1,69 +1,69 @@
 {
-  "classes": {
+  "class": {
     "entity": "class",
     "pkprefix": "cls"
   },
-  "teachers": {
+  "teacher": {
     "entity": "teacher",
     "pkprefix": "tch"
   },
-  "users": {
+  "user": {
     "entity": "user",
     "pkprefix": "usr"
   },
-  "students": {
+  "student": {
     "entity": "student",
     "pkprefix": "std"
   },
-  "admins": {
+  "admin": {
     "entity": "admin",
     "pkprefix": "adm"
   },
-  "payers": {
+  "payer": {
     "entity": "payer",
     "pkprefix": "pyr"
   },
-  "topics": {
+  "topic": {
     "entity": "topic",
     "pkprefix": "tpc"
   },
-  "expertises": {
+  "expertise": {
     "entity": "expertise",
     "pkprefix": "exp"
   },
-  "products": {
+  "product": {
     "entity": "product",
     "pkprefix": "prd"
   },
-  "withdraws": {
+  "withdraw": {
     "entity": "withdraws",
     "pkprefix": "wdr"
   },
-  "sessions": {
+  "session": {
     "entity": "session",
     "pkprefix": "ssn"
   },
-  "feedbacks": {
+  "feedback": {
     "entity": "feedback",
     "pkprefix": "fdb"
   },
-  "deposits": {
+  "deposit": {
     "entity": "depsit",
     "pkprefix": "dpt"
   },
-  "participations": {
+  "participation": {
     "entity": "participation",
     "pkprefix": "prt"
   },
-  "paymentToTeachrs": {
+  "paymentToTeachr": {
     "entity": "paymentToTeacher",
     "pkprefix": "pyt"
   },
-  "teacherApplications": {
+  "teacherApplication": {
     "entity": "teacherApplication",
     "pkprefix": "tap"
   },
-  "promotions": {
+  "promotion": {
     "entity": "promotion",
     "pkprefix": "prm"
   }

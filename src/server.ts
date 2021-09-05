@@ -58,33 +58,33 @@ app.get("/", (req, res) => {
 //show data schema
 app.get("/api/schema", updateSchema);
 
-//users -- these endpoints are for users table. these endpoint work with usename.
-app.get("/api/users", getUsers);
-app.get("/api/users/:username", getOneUser);
-app.delete("/api/users/:username/delete", deleteUser);
-// app.post("/api/users/:username/add", addUser); //register endpoint instead should be used.
-app.patch("/api/users/:username/update", updateUser);
+//user -- these endpoints are for user table. these endpoint work with usename.
+app.get("/api/user", getUsers);
+app.get("/api/user/:username", getOneUser);
+app.delete("/api/user/:username/delete", deleteUser);
+// app.post("/api/user/:username/add", addUser); //register endpoint instead should be used.
+app.patch("/api/user/:username/update", updateUser);
 
 //user profiles -- these endpoits are for teachers, payers, students and admins.
 //these endpoints work with username. also the getters return a profile with user filds (usernam, firsname, lastname ,...)
-app.get("/api/p/:typeOfUsers", getProfiles);
-app.get("/api/p/:typeOfUsers/:username", getOneProfile);
-app.delete("/api/p/:typeOfUsers/:username/delete", deleteProfile);
-app.post("/api/p/:typeOfUsers/:username/add", addProfile);
-app.patch("/api/p/:typeOfUsers/:username/update", updateProfile);
+app.get("/api/p/:typeOfUser", getProfiles);
+app.get("/api/p/:typeOfUser/:username", getOneProfile);
+app.delete("/api/p/:typeOfUser/:username/delete", deleteProfile);
+app.post("/api/p/:typeOfUser/:username/add", addProfile);
+app.patch("/api/p/:typeOfUser/:username/update", updateProfile);
 
 //auto joining endpoints (for each foreign key in the result, they append the data related to that foreign key to the result. this append data is in for of an object with the key of that entity)
-app.get("/api/j/teacherApplications/:id", getJOneTeacherApplication);
-app.get("/api/j/teacherApplications", getJTeacherApplications);
+app.get("/api/j/teacherApplication/:id", getJOneTeacherApplication);
+app.get("/api/j/teacherApplication", getJTeacherApplications);
 
 app.get("/api/q/", getByQuery);
-//entities -- thses endpoints work for all tables including users, teachers, payers, students and admins.
+//entity -- thses endpoints work for all tables including user, teacher, payer, student and admin.
 // these endpoints work with the Primary Key of each table.
-app.get("/api/:entities", getEntities); //becarefull this endpoint eats all requests like /api/something
-app.get("/api/:entities/:id", getOneEntitiy);
-app.delete("/api/:entities/:id/delete", deleteEntitiy);
-app.post("/api/:entities/add", addEntity);
-app.patch("/api/:entities/:id/update", updateEntity);
+app.get("/api/:entity", getEntities); //becarefull this endpoint eats all requests like /api/something
+app.get("/api/:entity/:id", getOneEntitiy);
+app.delete("/api/:entity/:id/delete", deleteEntitiy);
+app.post("/api/:entity/add", addEntity);
+app.patch("/api/:entity/:id/update", updateEntity);
 
 // this is the catch all endpoint ---------------------------------
 

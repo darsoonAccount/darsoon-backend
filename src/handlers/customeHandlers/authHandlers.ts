@@ -38,10 +38,10 @@ export const registerUser = async (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const data = { ...req.body, password: hashedPassword };
-  const tableSchema = schema.users;
+  const tableSchema = schema.user;
 
   const entity = "user";
-  const table = "users";
+  const table = "user";
   const PKprefix = "usr";
 
   const [isDataValid, validationMessage] = isValid({

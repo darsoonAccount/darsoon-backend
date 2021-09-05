@@ -4,10 +4,10 @@ import schema from "../../db/schema.json";
 
 export const getUserByEmail = async (email) => {
   
-  const userColumnsExceptPassword = Object.keys(schema.users).filter(
+  const userColumnsExceptPassword = Object.keys(schema.user).filter(
     (key) => key !== "password"
     );
-    const sql = `SELECT ${userColumnsExceptPassword} FROM users WHERE users.email = '${email}'`;
+    const sql = `SELECT ${userColumnsExceptPassword} FROM user WHERE user.email = '${email}'`;
     const con = await connectToDB();
     try {
       const [rows, fields] = await con.execute(sql);
@@ -21,10 +21,10 @@ export const getUserByEmail = async (email) => {
 };
 
 export const getUserById = async (userId) => {
-  const userColumnsExceptPassword = Object.keys(schema.users).filter(
+  const userColumnsExceptPassword = Object.keys(schema.user).filter(
     (key) => key !== "password"
   );
-  const sql = `SELECT ${userColumnsExceptPassword} FROM users WHERE users.userId = '${userId}'`;
+  const sql = `SELECT ${userColumnsExceptPassword} FROM user WHERE user.userId = '${userId}'`;
   const con = await connectToDB();
   try {
     const [rows, fields] = await con.execute(sql);
@@ -38,10 +38,10 @@ export const getUserById = async (userId) => {
 };
 
 export const getUserByUsername = async (username) => {
-  const userColumnsExceptPassword = Object.keys(schema.users).filter(
+  const userColumnsExceptPassword = Object.keys(schema.user).filter(
     (key) => key !== "password"
   );
-  const sql = `SELECT ${userColumnsExceptPassword} FROM users WHERE users.username = '${username}'`;
+  const sql = `SELECT ${userColumnsExceptPassword} FROM user WHERE user.username = '${username}'`;
   const con = await connectToDB();
   try {
     const [rows, fields] = await con.execute(sql);
@@ -57,7 +57,7 @@ export const getUserByUsername = async (username) => {
 };
 
 export const getPassword = async (userId) => {
-  const sql = `SELECT password FROM users WHERE users.userId = '${userId}'`;
+  const sql = `SELECT password FROM user WHERE user.userId = '${userId}'`;
   const con = await connectToDB();
   try {
     const [rows, fields] = await con.execute(sql);

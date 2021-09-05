@@ -4,20 +4,20 @@ import tables from "../db/tables.json";
 import { getColumnNamesOf, getColumnsOf } from "./customeHandlers/showSchema";
 
 //📄
-//users getOne handler -------------------------------------------------------------------------
+//user getOne handler -------------------------------------------------------------------------
 export const getOneUser = async (req, res) => {
   const { username } = req.params;
-  const usersColumns: any = Object.keys(await getColumnsOf("users"));
-  const allColumnsExceptPassword = usersColumns.filter((column) => !column.includes("password"));
-  const sql = `SELECT ${allColumnsExceptPassword} FROM users WHERE users.username = '${username}'`;
+  const userColumns: any = Object.keys(await getColumnsOf("user"));
+  const allColumnsExceptPassword = userColumns.filter((column) => !column.includes("password"));
+  const sql = `SELECT ${allColumnsExceptPassword} FROM user WHERE user.username = '${username}'`;
   await getOneAndSend({ req, res, sql });
 };
 
 //profile getOne handler -------------------------------------------------------------------------
 export const getOneProfile = async (req, res) => {
-  const { typeOfUsers, username } = req.params;
+  const { typeOfUser, username } = req.params;
 
-  if (!["teachers", "admins", "payers", "students"].includes(typeOfUsers)) {
+  if (!["teacher", "admin", "payer", "student"].includes(typeOfUser)) {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
@@ -25,38 +25,35 @@ export const getOneProfile = async (req, res) => {
     return;
   }
 
-  const sql = `SELECT * FROM ${typeOfUsers} INNER JOIN usersView ON ${typeOfUsers}.userId = usersView.userId WHERE usersView.username = '${username}'`;
+  const sql = `SELECT * FROM ${typeOfUser} INNER JOIN userView ON ${typeOfUser}.userId = userView.userId WHERE userView.username = '${username}'`;
   await getOneAndSend({ sql, req, res });
 };
-//entities getOne handler -------------------------------------------------------------------------
+//entity getOne handler -------------------------------------------------------------------------
 export const getOneEntitiy = async (req, res) => {
-  const { entities, id } = req.params;
-  if (!Object.keys(schema).includes(entities) || entities === "users") {
+  const { entity, id } = req.params;
+  if (!Object.keys(schema).includes(entity) || entity === "user") {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
     });
     return;
   }
-  const entity = tables[entities].entity;
-  const sql = `SELECT * FROM ${entities} WHERE ${entity}Id = '${id}'`;
+  const sql = `SELECT * FROM ${entity} WHERE ${entity}Id = '${id}'`;
   await getOneAndSend({ req, res, sql });
 };
 
 export const getJOneTeacherApplication = async (req, res) => {
+  const { id } = req.params;
 
-  const {id} = req.params;
-
-  const sql = `SELECT * FROM teacherApplications LEFT JOIN usersView ON usersView.userId = teacherApplications.applicantUserId WHERE teacherApplications.teacherApplicationId = '${id}'`;
-  
+  const sql = `SELECT * FROM teacherApplication LEFT JOIN userView ON userView.userId = teacherApplication.applicantUserId WHERE teacherApplication.teacherApplicationId = '${id}'`;
 
   //getting results and nesting them!
 
-  let teacherApplicationsColumns = await getColumnNamesOf("teacherApplications");
-  teacherApplicationsColumns = teacherApplicationsColumns.map((col) => "teacherApplications_" + col);
-  let usersColumns = await getColumnNamesOf("usersView");
-  usersColumns = usersColumns.map((col) => "users_" + col);
-  let allColumns = teacherApplicationsColumns.concat(usersColumns);
+  let teacherApplicationColumns = await getColumnNamesOf("teacherApplication");
+  teacherApplicationColumns = teacherApplicationColumns.map((col) => "teacherApplication_" + col);
+  let userColumns = await getColumnNamesOf("userView");
+  userColumns = userColumns.map((col) => "user_" + col);
+  let allColumns = teacherApplicationColumns.concat(userColumns);
 
   const con = await connectToDB();
   try {
@@ -69,17 +66,17 @@ export const getJOneTeacherApplication = async (req, res) => {
       });
       return obj;
     });
-    
+
     const nestedResults = results.map((flatResult) => {
       const nestedResult = {
-        applicantUser: {}
+        applicantUser: {},
       };
       Object.keys(flatResult).map((key) => {
         const [table, column] = key.split("_");
-        if (table === 'teacherApplications') {
+        if (table === "teacherApplication") {
           nestedResult[column] = flatResult[key];
         } else {
-          nestedResult['applicantUser'][column] = flatResult[key];
+          nestedResult["applicantUser"][column] = flatResult[key];
         }
       });
       return nestedResult;
@@ -90,7 +87,6 @@ export const getJOneTeacherApplication = async (req, res) => {
     res.status(500).json({ status: 500, message: err.message });
   }
 };
-
 
 // utility function
 export const getOneAndSend = async ({ req, res, sql }) => {

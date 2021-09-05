@@ -8,18 +8,19 @@ import bcrypt from "bcrypt";
 //➕📄
 //register User handler ---------------------------------------------------------------------
 
-//users add handler -------------------------------------------------------------------------
+//user add handler -------------------------------------------------------------------------
+// better to remove this becasue register user is used for this purpose.
 export const addUser = async (req, res) => {
   const { username } = req.params;
   const { password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const data = { ...req.body, username, password: hashedPassword };
-  const tableSchema = schema.users;
+  const tableSchema = schema.user;
   await ValidateAddAndSend({
     req,
     res,
     entity: "user",
-    table: "users",
+    table: "user",
     PKprefix: "usr",
     data,
     tableSchema,
@@ -28,8 +29,8 @@ export const addUser = async (req, res) => {
 
 //profile add handler -------------------------------------------------------------------------
 export const addProfile = async (req, res) => {
-  const { typeOfUsers, username } = req.params;
-  if (!["teachers", "admins", "payers", "students"].includes(typeOfUsers)) {
+  const { typeOfUser, username } = req.params;
+  if (!["teacher", "admin", "payer", "student"].includes(typeOfUser)) {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
@@ -37,23 +38,23 @@ export const addProfile = async (req, res) => {
     return;
   }
   const data = { ...req.body };
-  const tableSchema = schema[typeOfUsers];
+  const tableSchema = schema[typeOfUser];
   await ValidateAddAndSend({
     req,
     res,
-    entity: tables[typeOfUsers].entity,
-    table: typeOfUsers,
-    PKprefix: tables[typeOfUsers].pkprefix,
+    entity: tables[typeOfUser].entity,
+    table: typeOfUser,
+    PKprefix: tables[typeOfUser].pkprefix,
     data,
     tableSchema,
   });
 };
 
-// entities add handler -------------------------------------------------------------------------
+// entity add handler -------------------------------------------------------------------------
 export const addEntity = async (req, res) => {
-  const { entities } = req.params;
+  const { entity } = req.params;
 
-  if (!Object.keys(schema).includes(entities)) {
+  if (!Object.keys(schema).includes(entity)) {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
@@ -66,13 +67,13 @@ export const addEntity = async (req, res) => {
     const hashedPassword = await bcrypt(password, 10);
     data = { ...req.body, password: hashedPassword };
   }
-  const tableSchema = schema[entities];
+  const tableSchema = schema[entity];
   await ValidateAddAndSend({
     req,
     res,
-    entity: tables[entities].entity,
-    table: entities,
-    PKprefix: tables[entities].pkprefix,
+    entity: tables[entity].entity,
+    table: entity,
+    PKprefix: tables[entity].pkprefix,
     data,
     tableSchema,
   });

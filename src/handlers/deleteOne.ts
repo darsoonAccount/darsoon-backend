@@ -3,17 +3,17 @@ import schema from "../db/schema.json";
 import tables from "../db/tables.json";
 
 //🚮
-//users delete handler -------------------------------------------------------------------------
+//typeOfUser delete handler -------------------------------------------------------------------------
 export const deleteUser = async (req, res) => {
   const { username } = req.params;
-  const sql = `DELETE FROM users WHERE users.username = '${username}'`;
+  const sql = `DELETE FROM user WHERE user.username = '${username}'`;
   await deleteOneAndSend({ req, res, sql });
 };
 
 //profile delete handler -------------------------------------------------------------------------
 export const deleteProfile = async (req, res) => {
-  const { typeOfUsers, username } = req.params;
-  if (!["teachers", "admins", "payers", "students"].includes(typeOfUsers)) {
+  const { typeOfUser, username } = req.params;
+  if (!["teacher", "admin", "payer", "student"].includes(typeOfUser)) {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
@@ -21,22 +21,21 @@ export const deleteProfile = async (req, res) => {
     return;
   }
 
-  const sql = `DELETE ${typeOfUsers}.* FROM ${typeOfUsers} INNER JOIN users ON ${typeOfUsers}.userId = users.userId WHERE users.username = '${username}'`;
+  const sql = `DELETE ${typeOfUser}.* FROM ${typeOfUser} INNER JOIN user ON ${typeOfUser}.userId = user.userId WHERE user.username = '${username}'`;
   await deleteOneAndSend({ sql, req, res });
 };
 
-//entities delete handler -------------------------------------------------------------------------
+//entity delete handler -------------------------------------------------------------------------
 export const deleteEntitiy = async (req, res) => {
-  const { entities, id } = req.params;
-  if (!Object.keys(schema).includes(entities)) {
+  const { entity, id } = req.params;
+  if (!Object.keys(schema).includes(entity)) {
     res.status(404).json({
       status: 404,
       message: "Page Not Found!",
     });
     return;
   }
-  const entity = tables[entities].entity;
-  const sql = `DELETE FROM ${entities} WHERE ${entity}Id = '${id}'`;
+  const sql = `DELETE FROM ${entity} WHERE ${entity}Id = '${id}'`;
   await deleteOneAndSend({ req, res, sql });
 };
 
@@ -53,4 +52,3 @@ export const deleteOneAndSend = async ({ req, res, sql }) => {
     res.status(500).json({ status: 500, message: err.message });
   }
 };
-
