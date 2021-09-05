@@ -1,6 +1,18 @@
 import { connectToDB } from "../../db/dbConnector";
 
 export const showSchema = async (req, res) => {
+  const [schema, errorMessage] = await createSchema();
+
+  if (errorMessage) {
+    res.status(500).json({ status: 500, message: errorMessage });
+  } else {
+    res.status(200).json(schema);
+  }
+};
+
+
+
+export const createSchema = async () => {
   try {
     let tables = await getTablesFromDB();
 
@@ -16,22 +28,9 @@ export const showSchema = async (req, res) => {
       const [table, columns] = item;
       schema[table] = columns;
     });
-
-    res.status(200).json(schema);
+    return [schema, null];
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message });
-  }
-};
-
-const getTablesFromDB = async () => {
-  const con = await connectToDB();
-  try {
-    const sql = "show tables";
-    const result = await con.execute(sql);
-    const tables = result[0].map((item) => item.Tables_in_darsoon);
-    return tables;
-  } catch (err) {
-    throw err;
+    return [null, err.message];
   }
 };
 
@@ -45,6 +44,18 @@ export const getColumnsOf = async (table) => {
       columns[column.Field] = column;
     });
     return columns;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const getTablesFromDB = async () => {
+  const con = await connectToDB();
+  try {
+    const sql = "show tables";
+    const result = await con.execute(sql);
+    const tables = result[0].map((item) => item.Tables_in_darsoon);
+    return tables;
   } catch (err) {
     throw err;
   }
