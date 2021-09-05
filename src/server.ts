@@ -80,11 +80,11 @@ app.get("/api/j/teacherApplication", getJTeacherApplications);
 app.get("/api/q/", getByQuery);
 //entity -- thses endpoints work for all tables including user, teacher, payer, student and admin.
 // these endpoints work with the Primary Key of each table.
-app.get("/api/:entity", getEntities); //becarefull this endpoint eats all requests like /api/something
-app.get("/api/:entity/:id", getOneEntitiy);
-app.delete("/api/:entity/:id/delete", deleteEntitiy);
-app.post("/api/:entity/add", addEntity);
-app.patch("/api/:entity/:id/update", updateEntity);
+app.get("/api/:table", getEntities); //becarefull this endpoint eats all requests like /api/something
+app.get("/api/:table/:id", getOneEntitiy);
+app.delete("/api/:table/:id/delete", deleteEntitiy);
+app.post("/api/:table/add", addEntity);
+app.patch("/api/:table/:id/update", updateEntity);
 
 // this is the catch all endpoint ---------------------------------
 

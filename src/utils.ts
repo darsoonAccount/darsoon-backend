@@ -21,14 +21,14 @@ export const findUserId = async (username) => {
   }
 };
 
-export const findPk = async ({ username, table, entity }) => {
+export const findPk = async ({ username, table }) => {
   const con = await connectToDB();
   try {
     const [rows, fields] = await con.execute(`SELECT * FROM ${table} INNER JOIN user ON ${table}.userId = user.userId WHERE user.username = '${username}'`);
     if (rows.length === 0) {
       return null;
     }
-    return rows[0][`${entity}Id`];
+    return rows[0][`${table}Id`];
   } catch (error) {
     return null;
   }

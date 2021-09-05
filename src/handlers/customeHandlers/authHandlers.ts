@@ -40,7 +40,6 @@ export const registerUser = async (req, res) => {
   const data = { ...req.body, password: hashedPassword };
   const tableSchema = schema.user;
 
-  const entity = "user";
   const table = "user";
   const PKprefix = "usr";
 
@@ -58,7 +57,7 @@ export const registerUser = async (req, res) => {
   const values = Object.values(data)
     .filter((value) => value !== null)
     .map((value) => `'${value}'`);
-  const sql = `INSERT INTO ${table} (${entity}Id ,${keys}) VALUES ('${pk}', ${values})`;
+  const sql = `INSERT INTO ${table} (${table}Id ,${keys}) VALUES ('${pk}', ${values})`;
 
   const con = await connectToDB();
   try {

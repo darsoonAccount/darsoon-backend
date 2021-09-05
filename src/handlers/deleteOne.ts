@@ -1,6 +1,6 @@
 import { connectToDB } from "../db/dbConnector";
 import schema from "../db/schema.json";
-import tables from "../db/tables.json";
+import pkprefix from '../db/pkprefix.json';
 
 //🚮
 //typeOfUser delete handler -------------------------------------------------------------------------
@@ -27,15 +27,15 @@ export const deleteProfile = async (req, res) => {
 
 //entity delete handler -------------------------------------------------------------------------
 export const deleteEntitiy = async (req, res) => {
-  const { entity, id } = req.params;
-  if (!Object.keys(schema).includes(entity)) {
+  const { table, id } = req.params;
+  if (!Object.keys(schema).includes(table)) {
     res.status(404).json({
       status: 404,
       message: "Page Not Found!",
     });
     return;
   }
-  const sql = `DELETE FROM ${entity} WHERE ${entity}Id = '${id}'`;
+  const sql = `DELETE FROM ${table} WHERE ${table}Id = '${id}'`;
   await deleteOneAndSend({ req, res, sql });
 };
 

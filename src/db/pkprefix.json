@@ -1,0 +1,19 @@
+{
+  "class": "cls",
+  "teacher": "tch",
+  "user": "usr",
+  "student": "std",
+  "admin": "adm",
+  "payer": "pyr",
+  "topic": "tpc",
+  "expertise": "exp",
+  "product": "prd",
+  "withdraw": "wdr",
+  "session": "ssn",
+  "feedback": "fdb",
+  "deposit": "dpt",
+  "participation": "prt",
+  "paymentToTeachr": "pyt",
+  "teacherApplication": "tap",
+  "promotion": "prm"
+}

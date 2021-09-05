@@ -34,8 +34,8 @@ export const getProfiles = async (req, res) => {
 
 //entity getAll handler ------------------------------------------------------------------------------
 export const getEntities = async (req, res) => {
-  const { entity } = req.params;
-  if (!Object.keys(schema).includes(entity) || entity === "user") {
+  const { table } = req.params;
+  if (!Object.keys(schema).includes(table) || table === "user") {
     //dont send user through this.
     res.status(404).json({
       status: 404,
@@ -44,9 +44,9 @@ export const getEntities = async (req, res) => {
     return;
   }
 
-  let initialSql = `SELECT * FROM ${entity}`;
+  let initialSql = `SELECT * FROM ${table}`;
 
-  const [sql, errorMessage] = addSqlConditions(initialSql, entity, req.query);
+  const [sql, errorMessage] = addSqlConditions(initialSql, table, req.query);
   if (errorMessage) {
     res.status(400).json({ message: errorMessage });
     return;
@@ -131,13 +131,13 @@ const justGetAllAsAaray = async ({ req, res, sql }) => {
   // }
 };
 
-const addSqlConditions = (sql, entity, reqQuery) => {
+const addSqlConditions = (sql, table, reqQuery) => {
   //adding query conditons if there is any eligible query condition
   if (reqQuery) {
     //chcek if the query string is all eligible, otherwise return 400.
     const queryKeys = Object.keys(reqQuery);
     const isQueryEligible = queryKeys.every((queryKey) => {
-      const columnNamesArray = Object.keys(schema[entity]);
+      const columnNamesArray = Object.keys(schema[table]);
       return columnNamesArray.includes(queryKey);
     });
     if (!isQueryEligible) {

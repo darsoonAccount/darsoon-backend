@@ -1,6 +1,6 @@
 import { connectToDB } from "../db/dbConnector";
 import schema from "../db/schema.json";
-import tables from "../db/tables.json";
+import pkprefix from '../db/pkprefix.json';
 import { getColumnNamesOf, getColumnsOf } from "./customeHandlers/showSchema";
 
 //📄
@@ -30,15 +30,15 @@ export const getOneProfile = async (req, res) => {
 };
 //entity getOne handler -------------------------------------------------------------------------
 export const getOneEntitiy = async (req, res) => {
-  const { entity, id } = req.params;
-  if (!Object.keys(schema).includes(entity) || entity === "user") {
+  const { table , id } = req.params;
+  if (!Object.keys(schema).includes(table) || table === "user") {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
     });
     return;
   }
-  const sql = `SELECT * FROM ${entity} WHERE ${entity}Id = '${id}'`;
+  const sql = `SELECT * FROM ${table} WHERE ${table}Id = '${id}'`;
   await getOneAndSend({ req, res, sql });
 };
 

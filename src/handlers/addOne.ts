@@ -1,6 +1,6 @@
 import { connectToDB } from "../db/dbConnector";
 import schema from "../db/schema.json";
-import tables from "../db/tables.json";
+import pkprefix from '../db/pkprefix.json';
 import { isValid } from "../validator";
 import { genPK } from "../utils";
 import bcrypt from "bcrypt";
@@ -19,7 +19,6 @@ export const addUser = async (req, res) => {
   await ValidateAddAndSend({
     req,
     res,
-    entity: "user",
     table: "user",
     PKprefix: "usr",
     data,
@@ -42,9 +41,8 @@ export const addProfile = async (req, res) => {
   await ValidateAddAndSend({
     req,
     res,
-    entity: tables[typeOfUser].entity,
     table: typeOfUser,
-    PKprefix: tables[typeOfUser].pkprefix,
+    PKprefix: pkprefix[typeOfUser],
     data,
     tableSchema,
   });
@@ -52,9 +50,9 @@ export const addProfile = async (req, res) => {
 
 // entity add handler -------------------------------------------------------------------------
 export const addEntity = async (req, res) => {
-  const { entity } = req.params;
+  const { table } = req.params;
 
-  if (!Object.keys(schema).includes(entity)) {
+  if (!Object.keys(schema).includes(table)) {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
@@ -67,13 +65,12 @@ export const addEntity = async (req, res) => {
     const hashedPassword = await bcrypt(password, 10);
     data = { ...req.body, password: hashedPassword };
   }
-  const tableSchema = schema[entity];
+  const tableSchema = schema[table];
   await ValidateAddAndSend({
     req,
     res,
-    entity: tables[entity].entity,
-    table: entity,
-    PKprefix: tables[entity].pkprefix,
+    table,
+    PKprefix: pkprefix[table],
     data,
     tableSchema,
   });
@@ -84,13 +81,13 @@ export const addEntity = async (req, res) => {
 interface IvalidateAddAndSend {
   req: any;
   res: any;
-  entity: string;
+  table: string;
   PKprefix: string;
   data: any;
   dataPatternArray: any;
 }
 
-export const ValidateAddAndSend = async ({ req, res, entity, table, PKprefix, data, tableSchema }) => {
+export const ValidateAddAndSend = async ({ req, res, table, PKprefix, data, tableSchema }) => {
   const [isDataValid, validationMessage] = isValid({
     data,
     tableSchema,
@@ -105,8 +102,8 @@ export const ValidateAddAndSend = async ({ req, res, entity, table, PKprefix, da
   const values = Object.values(data)
     .filter((value) => value !== null)
     .map((value) => `'${value}'`);
-  const sql = `INSERT INTO ${table} (${entity}Id ,${keys}) VALUES ('${pk}', ${values})`;
-  data = { ...data, [`${entity}Id`]: pk };
+  const sql = `INSERT INTO ${table} (${table}Id ,${keys}) VALUES ('${pk}', ${values})`;
+  data = { ...data, [`${table}Id`]: pk };
   await addOneAndSend({ req, res, sql, data });
 };
 
