@@ -24,8 +24,7 @@ export const getProfiles = async (req, res) => {
     res.status(404).json({
       status: 404,
       message: "Not Found",
-      messageFa:"چیزی پیدا نشد!"
-      
+      messageFa: "چیزی پیدا نشد!",
     });
     return;
   }
@@ -104,7 +103,7 @@ export const getJTeacherApplications = async (req, res) => {
 
     res.status(200).json({ status: 200, message: "success", data: nestedResults });
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message , messageFa: err.meesage });
+    res.status(500).json({ status: 500, message: err.message, messageFa: err.meesage });
   }
 };
 
@@ -115,7 +114,7 @@ const getAllAndSend = async ({ req, res, sql }) => {
     const [rows, fields] = await con.execute(sql);
     res.status(200).json({ status: 200, message: "success", data: rows });
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message , messageFa: err.meesage });
+    res.status(500).json({ status: 500, message: err.message, messageFa: err.meesage });
   }
 };
 
