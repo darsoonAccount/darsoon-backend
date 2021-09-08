@@ -5,19 +5,27 @@ const fs = require("fs");
 const mysql = require("mysql2/promise");
 require("dotenv").config();
 
+export const pool = null;
+
 export const connectToDB = async () => {
-  const dbSocketPath = process.env.DB_SOCKET_PATH || "/cloudsql";
+  if (!pool) {
+    const dbSocketPath = process.env.DB_SOCKET_PATH || "/cloudsql";
 
-  const config = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB,
-    socketPath: `${dbSocketPath}/${process.env.CLOUD_SQL_CONNECTION_NAME}`,
-  };
+    const config = {
+      connectionLimit: 99,
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB,
+      socketPath: `${dbSocketPath}/${process.env.CLOUD_SQL_CONNECTION_NAME}`,
+    };
 
-  const con = await mysql.createPool(config);
-  return con;
+    const newPool = await mysql.createPool(config);
+
+    return newPool;
+  } else {
+    return pool;
+  }
 };
 
 export const updateSchemaFile = async () => {
