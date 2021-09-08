@@ -33,6 +33,7 @@ export const addProfile = async (req, res) => {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
+      messageFa:"صفحه مورد نظر پیدا نشد!"
     });
     return;
   }
@@ -56,6 +57,8 @@ export const addEntity = async (req, res) => {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
+      messageFa:"صفحه مورد نظر پیدا نشد!"
+
     });
     return;
   }
@@ -94,7 +97,7 @@ export const ValidateAddAndSend = async ({ req, res, table, PKprefix, data, tabl
     isUpdating: false,
   });
   if (!isDataValid) {
-    res.status(400).json({ status: 400, message: validationMessage });
+    res.status(400).json({ status: 400, message: validationMessage, messageFa: validationMessage });
     return;
   }
   const pk = genPK(PKprefix);
@@ -117,10 +120,10 @@ const addOneAndSend = async ({ req, res, sql, data }) => {
     }
   } catch (err) {
     if (err.message.includes("Dup")) {
-      res.status(400).json({ status: 400, message: err.message });
+      res.status(400).json({ status: 400, message: err.message , messageFa: err.meesage});
       return;
     } else {
-      res.status(500).json({ status: 500, message: err.message });
+      res.status(500).json({ status: 500, message: err.message , messageFa: err.meesage });
       return;
     }
   }

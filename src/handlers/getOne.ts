@@ -35,6 +35,7 @@ export const getOneEntitiy = async (req, res) => {
     res.status(404).json({
       status: 404,
       message: "Page Not Found",
+      messageFa:"چیزی پیدا نشد!"
     });
     return;
   }
@@ -84,7 +85,7 @@ export const getJOneTeacherApplication = async (req, res) => {
 
     res.status(200).json({ status: 200, message: "success", data: nestedResults[0] });
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message });
+    res.status(500).json({ status: 500, message: err.messageو , messageFa: err.meesage });
   }
 };
 
@@ -95,11 +96,11 @@ export const getOneAndSend = async ({ req, res, sql }) => {
     const [rows, fields] = await con.execute(sql);
 
     if (rows.length === 0) {
-      res.status(400).json({ status: 400, message: "bad request" });
+      res.status(400).json({ status: 400, message: "bad request" , messageFa:"فرمان اشتباه"});
       return;
     }
     res.status(200).json({ status: 200, message: "success", data: rows[0] });
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message });
+    res.status(500).json({ status: 500, message: err.messageو , messageFa: err.meesage });
   }
 };

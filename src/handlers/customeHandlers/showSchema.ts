@@ -8,7 +8,7 @@ export const showSchema = async (req, res) => {
     
     res.status(200).json(schema);
   } catch (error) {
-    res.status(500).json({ status: 500, message: error.message });
+    res.status(500).json({ status: 500, message: error.message, messageFa: error.message });
   }
 }
 
@@ -17,7 +17,7 @@ export const updateSchema = async (req, res) => {
     const schema = await updateSchemaFile();
     res.status(200).json(schema);
   } catch (error) {
-    res.status(500).json({ status: 500, message: error.message });
+    res.status(500).json({ status: 500, message: error.message, messageFa: error.message });
   }
 };
 

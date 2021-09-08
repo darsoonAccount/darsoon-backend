@@ -19,7 +19,7 @@ export const updateUser = async (req, res) => {
 
   const pk = await findUserId(username);
   if (pk === null) {
-    res.status(400).json({ status: 400, message: "There is no user with this username." });
+    res.status(400).json({ status: 400, message: "There is no user with this username.", messageFa: "کاربری با این نام کاربری وجود ندارد." });
     return;
   }
 
@@ -43,7 +43,7 @@ export const updateProfile = async (req, res) => {
 
   const pk = await findPk({ username, table: typeOfUser });
   if (pk === null) {
-    res.status(400).json({ status: 400, message: "There is no user with this username." });
+    res.status(400).json({ status: 400, message: "There is no user with this username.", messageFa: "کاربری با این نام کاربری وجود ندارد."  });
     return;
   }
 
@@ -88,7 +88,7 @@ const ValidateUpdateAndSend = async ({ req, res, table, pkprefix, pk, data, tabl
     isUpdating: false,
   });
   if (!isDataValid) {
-    res.status(400).json({ status: 400, message: validationMessage });
+    res.status(400).json({ status: 400, message: validationMessage , messageFa: validationMessage });
     return;
   }
   let setAssignements = Object.keys(data).map((key) => {
@@ -110,9 +110,9 @@ const updateOneAndSend = async ({ req, res, sql, data }) => {
       res.status(200).json({ status: 200, message: "succesfully updated", data });
       return;
     } else {
-      res.status(500).json({ status: 400, message: "bad request" });
+      res.status(500).json({ status: 400, message: "bad request" , messageFa: "فرمان اشتباه" });
     }
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message });
+    res.status(500).json({ status: 500, message: err.message, messageFa: err.message });
   }
 };

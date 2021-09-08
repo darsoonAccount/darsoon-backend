@@ -11,7 +11,7 @@ export const getUsers = async (req, res) => {
 
   const [sql, errorMessage] = addSqlConditions(initialSql, "user", req.query);
   if (errorMessage) {
-    res.status(400).json({ message: errorMessage });
+    res.status(400).json({ message: errorMessage, messageFa: errorMessage });
     return;
   }
   await getAllAndSend({ sql, req, res });
@@ -23,7 +23,9 @@ export const getProfiles = async (req, res) => {
   if (!["teacher", "admin", "payer", "student"].includes(typeOfUser)) {
     res.status(404).json({
       status: 404,
-      message: "Page Not Found",
+      message: "Not Found",
+      messageFa:"چیزی پیدا نشد!"
+      
     });
     return;
   }
@@ -102,7 +104,7 @@ export const getJTeacherApplications = async (req, res) => {
 
     res.status(200).json({ status: 200, message: "success", data: nestedResults });
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message });
+    res.status(500).json({ status: 500, message: err.message , messageFa: err.meesage });
   }
 };
 
@@ -113,7 +115,7 @@ const getAllAndSend = async ({ req, res, sql }) => {
     const [rows, fields] = await con.execute(sql);
     res.status(200).json({ status: 200, message: "success", data: rows });
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message });
+    res.status(500).json({ status: 500, message: err.message , messageFa: err.meesage });
   }
 };
 

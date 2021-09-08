@@ -16,7 +16,8 @@ export const deleteProfile = async (req, res) => {
   if (!["teacher", "admin", "payer", "student"].includes(typeOfUser)) {
     res.status(404).json({
       status: 404,
-      message: "Page Not Found",
+      message: "Not Found",
+      messageFa:"چیزی پیدا نشد!"
     });
     return;
   }
@@ -31,7 +32,8 @@ export const deleteEntitiy = async (req, res) => {
   if (!Object.keys(schema).includes(table)) {
     res.status(404).json({
       status: 404,
-      message: "Page Not Found!",
+      message: "Not Found!",
+      messageFa:"چیزی پیدا نشد!"
     });
     return;
   }
@@ -45,10 +47,10 @@ export const deleteOneAndSend = async ({ req, res, sql }) => {
   try {
     const [deleteResult, fields] = await con.execute(sql);
     if (deleteResult.affectedRows === 0) {
-      res.status(400).json({ status: 400, message: "bad request" });
+      res.status(400).json({ status: 400, message: "bad request" , messageFa: "فرمان اشتباه" });
     }
     res.status(200).json({ status: 200, message: "succefully deleted" });
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message });
+    res.status(500).json({ status: 500, message: err.message , messageFa: err.meesage });
   }
 };
